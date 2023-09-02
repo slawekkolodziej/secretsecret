@@ -4,18 +4,24 @@ import { kv } from "../../lib/kv";
 import { validateSecretSchema } from "../../lib/schema";
 import { ZodError } from "zod";
 
-export const POST: APIRoute = async ({ request }) => {
+export const prerender = false;
+
+const POST: APIRoute = async ({ request }) => {
   try {
     const rawData = await request.json();
     const data = validateSecretSchema.parse(rawData);
     const id = nanoid();
 
-    await kv.set(id, JSON.stringify({
-      destruct: data.destruct,
-      secret: data.secret
-    }), {
-      ex: parseInt(data.expire),
-    });
+    await kv.set(
+      id,
+      JSON.stringify({
+        destruct: data.destruct,
+        secret: data.secret,
+      }),
+      {
+        ex: parseInt(data.expire),
+      }
+    );
 
     return Response.json({
       id,
@@ -43,4 +49,9 @@ export const POST: APIRoute = async ({ request }) => {
       }
     );
   }
+};
+
+// Route handlers in Astro <3.0 uses lower-case names
+export {
+  POST as post
 };

@@ -12,9 +12,9 @@
   "dependencies": {
     "@astrojs/svelte": "^4.0.0",
     "@astrojs/tailwind": "^5.0.0",
-    "@astrojs/vercel": "^4.0.3",
+    "@astrojs/vercel": "^3.8.2",
     "@vercel/kv": "^0.2.2",
-    "astro": "^3.0.7",
+    "astro": "^2.10.15",
     "humanize-duration": "^3.29.0",
     "svelte": "^4.0.0",
     "svelte-select": "^5.7.0",
