@@ -14,7 +14,7 @@
     "@astrojs/tailwind": "^5.0.0",
     "@astrojs/vercel": "^4.0.3",
     "@vercel/kv": "^0.2.2",
-    "astro": "^3.0.6",
+    "astro": "^3.0.7",
     "humanize-duration": "^3.29.0",
     "svelte": "^4.0.0",
     "svelte-select": "^5.7.0",
