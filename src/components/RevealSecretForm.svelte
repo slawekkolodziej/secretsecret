@@ -60,6 +60,7 @@
       <TextArea
         label="Secret:"
         id="secret"
+        class="h-32"
         readOnly
         bind:value={secret}
         onClick={handleSecretClick}
@@ -80,7 +81,7 @@
       <Input
         id="passphrase"
         label="Password:"
-        name="hello"
+        autocomplete="off"
         error={errors.passphrase}
         bind:value={passphrase}
       >

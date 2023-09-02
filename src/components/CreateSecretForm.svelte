@@ -71,8 +71,8 @@
 <form on:submit|preventDefault={handleSubmit} class="space-y-8">
   <TextArea
     label="Secret content:"
-    class="h-32"
     id="secret"
+    class="h-32"
     placeholder="Put your content here to securely share it with others..."
     error={errors.secret}
     bind:value={formData.secret}
