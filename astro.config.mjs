@@ -8,6 +8,6 @@ export default defineConfig({
   output: 'hybrid',
   integrations: [tailwind(), svelte()],
   adapter: vercel({
-    analytics: true
+    analytics: false
   })
 });
