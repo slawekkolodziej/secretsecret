@@ -1,8 +1,8 @@
 <script lang="ts">
   import { encryptData } from "../lib/browserCrypto";
+  import type { CreateSecretPayload } from "../lib/schema";
   import CreateSecretForm from "./CreateSecretForm.svelte";
   import PresentShareLink from "./PresentShareLink.svelte";
-  import type { CreateSecretPayload } from "./types";
 
   let shareLink: null | string = null;
 
@@ -14,6 +14,8 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        expire: data.expire,
+        selfDestruct: data.selfDestruct,
         secret,
       }),
     });

@@ -6,7 +6,7 @@ import { kv } from "../../lib/kv";
 export const prerender = false;
 
 const id = Astro.params.id;
-const data = await kv.get(id);
+const data = id ? await kv.get(id) : null;
 
 if (data === null) {
   return Astro.redirect("/404");

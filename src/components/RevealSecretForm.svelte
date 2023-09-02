@@ -8,18 +8,25 @@
 
   let secret = "";
   let passphrase = "";
+  let errors: Record<string, string> = {};
 
   async function handleDecrypt() {
-    try {
-      await fetch(`/api/secrets/${id}`, {
-        method: "delete",
-      });
+    errors = {};
 
+    try {
       secret = await decryptData(encryptedData, passphrase);
       passphrase = "";
     } catch (err) {
-      console.error(err);
+      errors = {
+        passphrase: "This password is not valid.",
+      };
     }
+
+    try {
+      // await fetch(`/api/secrets/${id}`, {
+      //   method: "delete",
+      // });
+    } catch (err) {}
   }
 
   function conceal() {
@@ -58,18 +65,19 @@
       id="passphrase"
       label="Passphrase:"
       name="hello"
-      description="You should receive this passphrase from the person who gave you this link"
+      description="A person who have you this link should also share this password."
+      error={errors.passphrase}
       bind:value={passphrase}
     />
 
     <div class="flex items-center justify-center space-x-2">
-      <Button type="submit">Decrypt</Button>
-      <a
+      <Button type="submit">Reveal secret</Button>
+      <!-- <a
         href="/"
         class="text-gray-400 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
         or create your own shared secret
-      </a>
+      </a> -->
     </div>
   </form>
 {/if}

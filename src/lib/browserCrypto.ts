@@ -1,5 +1,5 @@
 // for large strings, use this from https://stackoverflow.com/a/49124600
-const buff_to_base64 = (buff) =>
+const buff_to_base64 = (buff: any) =>
   btoa(
     new Uint8Array(buff).reduce(
       (data, byte) => data + String.fromCharCode(byte),
@@ -7,19 +7,19 @@ const buff_to_base64 = (buff) =>
     )
   );
 
-const base64_to_buf = (b64) =>
+const base64_to_buf = (b64: any) =>
   // @ts-expect-error
   Uint8Array.from(atob(b64), (c) => c.charCodeAt(null));
 
 const enc = new TextEncoder();
 const dec = new TextDecoder();
 
-const getPasswordKey = (password) =>
+const getPasswordKey = (password: string) =>
   window.crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, [
     "deriveKey",
   ]);
 
-const deriveKey = (passwordKey, salt, keyUsage) =>
+const deriveKey = (passwordKey: CryptoKey, salt: Uint8Array, keyUsage: KeyUsage[]) =>
   window.crypto.subtle.deriveKey(
     {
       name: "PBKDF2",
@@ -33,7 +33,7 @@ const deriveKey = (passwordKey, salt, keyUsage) =>
     keyUsage
   );
 
-export async function encryptData(secretData, password) {
+export async function encryptData(secretData: string, password: string) {
   const salt = window.crypto.getRandomValues(new Uint8Array(16));
   const iv = window.crypto.getRandomValues(new Uint8Array(12));
   const passwordKey = await getPasswordKey(password);
@@ -58,7 +58,7 @@ export async function encryptData(secretData, password) {
   return base64Buff;
 }
 
-export async function decryptData(encryptedData, password) {
+export async function decryptData(encryptedData: string, password: string) {
   const encryptedDataBuff = base64_to_buf(encryptedData);
   const salt = encryptedDataBuff.slice(0, 16);
   const iv = encryptedDataBuff.slice(16, 16 + 12);

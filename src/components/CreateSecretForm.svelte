@@ -1,17 +1,29 @@
 <script lang="ts">
   import { ZodError } from "zod";
-  import { secretSchema } from "../lib/schema";
+  import Select from "svelte-select";
+  import { createSecretSchema, type CreateSecretPayload, type CreateSecretFormData } from "../lib/schema";
   import Button from "./Button.svelte";
   import Input from "./Input.svelte";
   import TextArea from "./TextArea.svelte";
-  import type { CreateSecretPayload } from "./types";
+  import CheckBox from "./CheckBox.svelte";
+  import FormField from "./FormField.svelte";
 
   export let onSubmit = (_data: CreateSecretPayload) =>
     console.error(`Missing submit handler`);
 
-  const getInitialFormData = (): CreateSecretPayload => ({
+  const expireOptions = [
+    { label: "7 days",  value: 3600 * 24 * 7 },
+    { label: "1 day",   value: 3600 * 24 },
+    { label: "8 hours", value: 3600 * 8 },
+    { label: "4 hours", value: 3600 * 4 },
+    { label: "1 hour",  value: 3600 },
+  ];
+
+  const getInitialFormData = (): CreateSecretFormData => ({
     secret: "",
     passphrase: "",
+    selfDestruct: true,
+    expire: expireOptions[0],
   });
 
   let formData = getInitialFormData();
@@ -19,13 +31,18 @@
   let errors: Record<string, string> = {};
 
   const handleSubmit = async () => {
+    const values: CreateSecretPayload = {
+      ...formData,
+      expire: String(formData.expire.value)
+    };
+
     isSaving = true;
     errors = {};
     try {
       // Validate
-      const parsedData = secretSchema.parse(formData);
+      const parsedValues = createSecretSchema.parse(values);
       // Store
-      await onSubmit(parsedData);
+      await onSubmit(parsedValues);
       // Reset form
       formData = getInitialFormData();
     } catch (err) {
@@ -66,8 +83,7 @@
   >
     <svelte:fragment slot="description">
       <span class="block">
-        Create a non-obvious password and share it along with the link that you
-        are going to see after clicking the &quot;Save&quot; button.
+        Create a password to encrypt your secret. Share this password along with the link you are going to receive.
       </span>
       <span class="block">
         This password is used to derive an encryption key using PBKDF2.
@@ -79,7 +95,50 @@
     </svelte:fragment>
   </Input>
 
+  <div class="flex flex-col md:flex-row gap-8">
+    <div class="space-y-2 basis-1/3 select-wrapper">
+      <label for="expiration" class="block text-gray-700 text-sm font-bold mb-2">
+        Expire in
+      </label>
+      <Select
+        id="expiration"
+        items={expireOptions}
+        value={formData.expire}
+        clearable={false}
+        showChevron
+        class="leading-5"
+      />
+    </div>
+
+    <div class="basis-2/3">
+      <FormField id="hello-checkbox" label="Self-destruct">
+        <CheckBox id="hello-checkbox" checked={formData.selfDestruct} label="Automatically delete after use" />
+      </FormField>
+    </div>
+  </div>
+
   <div class="flex items-center justify-center">
     <Button type="submit">{isSaving ? "Saving..." : "Save"}</Button>
   </div>
 </form>
+
+<style lang="postcss">
+  .select-wrapper {
+    --border: 1px solid theme(colors.gray.200);
+    --border-hover: 1px solid theme(colors.gray.200);
+    --border-focused: 1px solid theme(colors.gray.200);
+    --border-radius: 0.25rem;
+    --height: 38px;
+    --max-height: 38px;
+  }
+
+  .select-wrapper :global(.svelte-select) {
+    @apply transition-all;
+  }
+  .select-wrapper :global(.svelte-select):has(input:focus) {
+    @apply ring-2 ring-indigo-600;
+  }
+  /* :global(.select):focus {
+    @apply ring-2 ring-indigo-600;
+  } */
+</style>
