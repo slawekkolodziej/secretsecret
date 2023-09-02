@@ -1,5 +1,5 @@
 ---
-const title = Astro.props.title ?? 'secure secret sharing';
+
 ---
 
 <html lang="en">
@@ -8,7 +8,7 @@ const title = Astro.props.title ?? 'secure secret sharing';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>secretsecret - {title}</title>
+    <title>secretsecret - not found</title>
     <style>
       html,
       body {
@@ -45,12 +45,20 @@ const title = Astro.props.title ?? 'secure secret sharing';
       </a>
     </header>
     <main
-      class="flex flex-1 flex-col items-center justify-start p-2 pt-0 font-mono"
+      class="flex flex-1 flex-col items-center justify-center p-2 pt-0 font-mono space-y-16"
     >
-      <slot />
+      <span class="text-3xl text-violet-600"> This page does not exist!</span>
+      <p class="text-center text-lg leading-8 max-w-lg">
+        The link may have been valid in the past but has now expired.
+        If you were expecting a secret here, please request it to be shared again.
+      </p>
+      <a href="/" class="text-violet-600">Go to main page</a>
     </main>
     <footer class="flex justify-center p-2">
-      <a href="https://github.com/slawekkolodziej/secretsecret" class="inline-flex items-center gap-2">
+      <a
+        href="https://github.com/slawekkolodziej/secretsecret"
+        class="inline-flex items-center gap-2"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
