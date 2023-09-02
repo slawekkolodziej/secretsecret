@@ -1,5 +1,6 @@
 # build output
 dist/
+
 # generated types
 .astro/
 
@@ -31,3 +32,6 @@ pnpm-debug.log*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Misc
+.vercel
