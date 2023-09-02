@@ -121,9 +121,9 @@
     </div>
 
     <div class="basis-2/3">
-      <FormField id="hello-checkbox" label="Self destruction">
+      <FormField id="destruct" label="Self destruction">
         <CheckBox
-          id="hello-checkbox"
+          id="destruct"
           bind:checked={formData.destruct}
           label="Auto delete after first read"
         />
@@ -150,7 +150,7 @@
     @apply transition-all;
   }
   .select-wrapper :global(.svelte-select):has(input:focus) {
-    @apply ring-2 ring-violet-600;
+    @apply ring-2 ring-focused;
   }
   .select-wrapper > :global(.svelte-select .item.hover) {
     background-color: theme(colors.violet.100) !important;

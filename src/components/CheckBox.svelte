@@ -17,14 +17,14 @@
   };
 </script>
 
-<div class='pt-1.5 flex items-center relative'>
+<div class='flex items-center relative'>
   <input
     {id}
     type="checkbox"
     class="checkboxBase absolute inset-0 -z-10 opacity-0"
     bind:checked
   />
-  <label for={id}>
+  <label for={id} class="py-1.5 px-2 rounded">
     <div
       class={twMerge(
         checkbox.wrapperBase,
@@ -42,12 +42,12 @@
   </label>
 </div>
 
-<style>
+<style lang="postcss">
   .checkboxBase + label {
-    @apply flex flex-row space-x-2;
+    @apply flex flex-row space-x-2 transition-all;
   }
 
-  .checkboxBase:focus + label > div {
-    @apply ring-2 ring-violet-700;
+  .checkboxBase:focus + label {
+    @apply ring-2 ring-focused;
   }
 </style>
