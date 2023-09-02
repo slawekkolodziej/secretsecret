@@ -28,12 +28,6 @@ Visit service homepage, then:
 
 This app was built with Astro, Svelte and Vercel KV. You can fork this project and deploy your own version to Vercel in a matter of minutes, at almost zero cost.
 
-### Receiving a Secret
-
-1. Open the received SecretSecret link.
-2. The secret will be decrypted in your browser and displayed to you.
-3. The secret is deleted from our servers if the sender chose the "Auto delete after first read" option.
-
 ## FAQs
 
 **Q: How secure is SecretSecret?**  
