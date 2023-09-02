@@ -2,6 +2,8 @@
   import { ZodError } from "zod";
   import Select from "svelte-select";
   import {
+    MAX_SECRET_LENGTH,
+    MAX_PASS_LENGTH,
     createSecretSchema,
     type CreateSecretPayload,
     type CreateSecretFormData,
@@ -73,10 +75,15 @@
     label="Secret content:"
     id="secret"
     class="h-32"
+    maxLength={MAX_SECRET_LENGTH}
     placeholder="Put your content here to securely share it with others..."
     error={errors.secret}
     bind:value={formData.secret}
-  />
+  >
+    <div slot="description" class="text-end">
+        {MAX_SECRET_LENGTH - formData.secret.length} characters left
+    </div>
+  </TextArea>
 
   <Input
     id="passphrase"
@@ -84,6 +91,7 @@
     placeholder="Password used to encrypt your secret..."
     error={errors.passphrase}
     type="text"
+    maxLength={MAX_PASS_LENGTH}
     autocomplete="off"
     bind:value={formData.passphrase}
   >
