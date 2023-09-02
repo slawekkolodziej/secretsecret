@@ -15,7 +15,7 @@
       },
       body: JSON.stringify({
         expire: data.expire,
-        selfDestruct: data.selfDestruct,
+        destruct: data.destruct,
         secret,
       }),
     });

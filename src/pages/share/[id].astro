@@ -1,20 +1,33 @@
 ---
+import duration from "humanize-duration";
 import RevealSecretForm from "../../components/RevealSecretForm.svelte";
 import Layout from "../../components/Layout.astro";
+import { type StoredSecretData } from "../../lib/schema";
 import { kv } from "../../lib/kv";
 
 export const prerender = false;
 
 const id = Astro.params.id;
-const data = id ? await kv.get(id) : null;
 
-if (data === null) {
+const [data, ttl] = id
+  ? await Promise.all([kv.get<StoredSecretData>(id), kv.ttl(id)])
+  : [null, -2];
+
+if (data === null || ttl < -1) {
   return Astro.redirect("/404");
 }
+
+const expireIn = duration(ttl * 1000, { largest: 1, round: true });
 ---
 
 <Layout>
   <div class="p-2 bg-white rounded max-w-[640px] w-full">
-    <RevealSecretForm id={id} encryptedData={data} client:visible />
+    <RevealSecretForm
+      client:visible
+      {id}
+      {expireIn}
+      destruct={data.destruct}
+      encryptedData={data.secret}
+    />
   </div>
 </Layout>

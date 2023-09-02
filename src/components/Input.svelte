@@ -26,7 +26,7 @@
     class={twMerge(
       "appearance-none border rounded w-full py-2 px-3 mb-3",
       "text-gray-700 leading-tight transition-all",
-      "focus:outline-none focus:ring-2 focus:ring-indigo-700",
+      "focus:outline-none focus:ring-2 focus:ring-violet-700",
       error ? "ring-2 ring-red-300" : ""
     )}
     bind:value

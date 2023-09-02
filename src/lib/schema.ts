@@ -15,20 +15,32 @@ assertTuple(expireValues);
 export interface CreateSecretFormData {
   secret: string;
   passphrase: string;
-  selfDestruct: boolean;
+  destruct: boolean;
   expire: { value: number; label: string };
+}
+
+export interface StoredSecretData {
+  secret: string;
+  destruct: boolean;
 }
 
 export const createSecretSchema = z
   .object({
     secret: z.string().min(1).max(500),
     passphrase: z.string().min(8).max(100),
-    selfDestruct: z.boolean(),
+    destruct: z.boolean(),
     expire: z.enum(expireValues),
   })
   .strict();
 
 export type CreateSecretPayload = z.infer<typeof createSecretSchema>;
+
+export const validateSecretSchema = z.object({
+  secret: z.string().min(1).max(1000),
+  destruct: z.boolean(),
+  expire: z.enum(expireValues),
+});
+
 
 function assertTuple(args: any): asserts args is [string, ...string[]] {
   return;

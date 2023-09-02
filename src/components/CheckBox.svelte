@@ -11,7 +11,7 @@
     toggleBase:
       "h-4 w-4 rounded-full bg-white shadow-sm ring-1 ring-slate-700/10 transition duration-200 ease-in-out",
     wrapperUnchecked: "bg-slate-900/10 ring-slate-900/5",
-    wrapperChecked: "bg-indigo-600 ring-black/20",
+    wrapperChecked: "bg-violet-600 ring-black/20",
     toggleUnchecked: "",
     toggleChecked: "translate-x-4",
   };
@@ -48,6 +48,6 @@
   }
 
   .checkboxBase:focus + label > div {
-    @apply ring-2 ring-indigo-700;
+    @apply ring-2 ring-violet-700;
   }
 </style>

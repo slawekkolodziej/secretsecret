@@ -1,7 +1,11 @@
 <script lang="ts">
   import { ZodError } from "zod";
   import Select from "svelte-select";
-  import { createSecretSchema, type CreateSecretPayload, type CreateSecretFormData } from "../lib/schema";
+  import {
+    createSecretSchema,
+    type CreateSecretPayload,
+    type CreateSecretFormData,
+  } from "../lib/schema";
   import Button from "./Button.svelte";
   import Input from "./Input.svelte";
   import TextArea from "./TextArea.svelte";
@@ -12,28 +16,30 @@
     console.error(`Missing submit handler`);
 
   const expireOptions = [
-    { label: "7 days",  value: 3600 * 24 * 7 },
-    { label: "1 day",   value: 3600 * 24 },
+    { label: "7 days", value: 3600 * 24 * 7 },
+    { label: "1 day", value: 3600 * 24 },
     { label: "8 hours", value: 3600 * 8 },
     { label: "4 hours", value: 3600 * 4 },
-    { label: "1 hour",  value: 3600 },
+    { label: "1 hour", value: 3600 },
   ];
-
-  const getInitialFormData = (): CreateSecretFormData => ({
-    secret: "",
-    passphrase: "",
-    selfDestruct: true,
-    expire: expireOptions[0],
-  });
 
   let formData = getInitialFormData();
   let isSaving = false;
   let errors: Record<string, string> = {};
 
-  const handleSubmit = async () => {
+  function getInitialFormData(): CreateSecretFormData {
+    return {
+      expire: expireOptions[0],
+      destruct: true,
+      secret: "",
+      passphrase: "",
+    };
+  }
+
+  async function handleSubmit() {
     const values: CreateSecretPayload = {
       ...formData,
-      expire: String(formData.expire.value)
+      expire: String(formData.expire.value),
     };
 
     isSaving = true;
@@ -59,7 +65,7 @@
       }
     }
     isSaving = false;
-  };
+  }
 </script>
 
 <form on:submit|preventDefault={handleSubmit} class="space-y-8">
@@ -83,7 +89,8 @@
   >
     <svelte:fragment slot="description">
       <span class="block">
-        Create a password to encrypt your secret. Share this password along with the link you are going to receive.
+        Create a password to encrypt your secret. Share this password along with
+        the link you are going to receive.
       </span>
       <span class="block">
         This password is used to derive an encryption key using PBKDF2.
@@ -97,13 +104,16 @@
 
   <div class="flex flex-col md:flex-row gap-8">
     <div class="space-y-2 basis-1/3 select-wrapper">
-      <label for="expiration" class="block text-gray-700 text-sm font-bold mb-2">
+      <label
+        for="expiration"
+        class="block text-gray-700 text-sm font-bold mb-2"
+      >
         Expire in
       </label>
       <Select
         id="expiration"
         items={expireOptions}
-        value={formData.expire}
+        bind:value={formData.expire}
         clearable={false}
         showChevron
         class="leading-5"
@@ -111,14 +121,18 @@
     </div>
 
     <div class="basis-2/3">
-      <FormField id="hello-checkbox" label="Self-destruct">
-        <CheckBox id="hello-checkbox" checked={formData.selfDestruct} label="Automatically delete after use" />
+      <FormField id="hello-checkbox" label="Self destruction">
+        <CheckBox
+          id="hello-checkbox"
+          bind:checked={formData.destruct}
+          label="Auto delete after first read"
+        />
       </FormField>
     </div>
   </div>
 
   <div class="flex items-center justify-center">
-    <Button type="submit">{isSaving ? "Saving..." : "Save"}</Button>
+    <Button type="submit">{isSaving ? "Working..." : "Encrypt"}</Button>
   </div>
 </form>
 
@@ -136,9 +150,14 @@
     @apply transition-all;
   }
   .select-wrapper :global(.svelte-select):has(input:focus) {
-    @apply ring-2 ring-indigo-600;
+    @apply ring-2 ring-violet-600;
   }
-  /* :global(.select):focus {
-    @apply ring-2 ring-indigo-600;
-  } */
+  .select-wrapper > :global(.svelte-select .item.hover) {
+    background-color: theme(colors.violet.100) !important;
+    color: theme(colors.violet.900) !important;
+  }
+  .select-wrapper > :global(.svelte-select .item.active) {
+    background-color: theme(colors.violet.500) !important;
+    color: theme(colors.violet.100) !important;
+  }
 </style>

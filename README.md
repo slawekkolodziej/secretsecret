@@ -1,47 +1,47 @@
-# Astro Starter Kit: Minimal
+# SecretSecret: README
 
-```
-npm create astro@latest -- --template minimal
-```
+## Introduction
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+**secret**secret is a toy project, a service that allows you to share secrets with your colleagues in a secure but simple way. Your secrets **NEVER** leave your browser unencrypted.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Only the encrypted version is temporarily stored in a Redis cache. Assuming you choose password that is long and unique enough, it is impossible for me to decrypt the secret.
 
-## 🚀 Project Structure
+## How to Use
 
-Inside of your Astro project, you'll see the following folders and files:
+### Sending a secret
 
-```
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Visit service homepage, then:
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+1. Type the secret that you want to share
+2. Type password used to encrypt your secret
+3. You can modify default expiration and self-destruct options, or leave default values
+4. Click 'encrypt'
+5. Share the provided link and password used in step 2 with your team mates.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### Receiving a secret
 
-Any static assets, like images, can be placed in the `public/` directory.
+1. Open the received secret**secret** link.
+2. Type password you received from a person who gave you the link.
+3. Click "decrypt" to see the secret.
 
-## 🧞 Commands
+## Self hosting
 
-All commands are run from the root of the project, from a terminal:
+This app was built with Astro, Svelte and Vercel KV. You can fork this project and deploy your own version to Vercel in a matter of minutes, at almost zero cost.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Receiving a Secret
 
-## 👀 Want to learn more?
+1. Open the received SecretSecret link.
+2. The secret will be decrypted in your browser and displayed to you.
+3. The secret is deleted from our servers if the sender chose the "Auto delete after first read" option.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## FAQs
+
+**Q: How secure is SecretSecret?**  
+A: Thanks to client-side encryption, your secret never leaves your browser unencrypted, making it extremely secure.
+
+**Q: What happens if the recipient doesn’t open the link?**  
+A: The secret remains encrypted on our servers until it is read or until it expires. Links expire after at most 7 days.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.

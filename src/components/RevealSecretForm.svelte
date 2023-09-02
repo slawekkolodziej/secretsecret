@@ -2,8 +2,11 @@
   import { decryptData } from "../lib/browserCrypto";
   import Button from "./Button.svelte";
   import Input from "./Input.svelte";
+  import TextArea from "./TextArea.svelte";
 
   export let id = "";
+  export let destruct = true;
+  export let expireIn = "";
   export let encryptedData = "";
 
   let secret = "";
@@ -22,11 +25,19 @@
       };
     }
 
-    try {
-      // await fetch(`/api/secrets/${id}`, {
-      //   method: "delete",
-      // });
-    } catch (err) {}
+    if (destruct) {
+      try {
+        await fetch(`/api/secrets/${id}`, {
+          method: "delete",
+        });
+      } catch (err) {
+        console.error(`Could not delete ${id}`, err);
+      }
+    }
+  }
+
+  function handleSecretClick(e: any) {
+    e.currentTarget.select();
   }
 
   function conceal() {
@@ -36,18 +47,13 @@
 
 {#if secret}
   <div class="space-y-8">
-    <div class="space-y-2">
-      <label for="secret" class="block text-gray-700 text-sm font-bold mb-2">
-        Secret:
-      </label>
-      <textarea
-        id="secret"
-        class="appearance-none border w-full h-32 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        readOnly
-        bind:value={secret}
-        on:click|preventDefault={(e) => e.currentTarget.select()}
-      />
-    </div>
+    <TextArea
+      label="Secret:"
+      id="secret"
+      readOnly
+      bind:value={secret}
+      onClick={handleSecretClick}
+    />
 
     <div class="flex items-center justify-center space-x-2">
       <Button on:click={conceal}>Conceal</Button>
@@ -55,29 +61,38 @@
         href="/"
         class="text-gray-400 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
-        Create your own shared secret
+        Create shared secret
       </a>
     </div>
   </div>
 {:else}
-  <form on:submit|preventDefault={handleDecrypt} class="space-y-8">
-    <Input
-      id="passphrase"
-      label="Passphrase:"
-      name="hello"
-      description="A person who have you this link should also share this password."
-      error={errors.passphrase}
-      bind:value={passphrase}
-    />
-
-    <div class="flex items-center justify-center space-x-2">
-      <Button type="submit">Reveal secret</Button>
-      <!-- <a
-        href="/"
-        class="text-gray-400 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+  <div class="space-y-4">
+    <h2 class="text-xl">
+      This secret will self-destruct in {expireIn}{#if destruct}
+        <br/>
+        <span class="text-red-500">or after you read it.</span>
+      {:else}
+        .
+      {/if}
+    </h2>
+    <form on:submit|preventDefault={handleDecrypt} class="space-y-8">
+      <Input
+        id="passphrase"
+        label="Passphrase:"
+        name="hello"
+        error={errors.passphrase}
+        bind:value={passphrase}
       >
-        or create your own shared secret
-      </a> -->
-    </div>
-  </form>
+        <div slot="description" class="space-y-2">
+          <span>
+            A person who have you this link should also share this password.
+          </span>
+        </div>
+      </Input>
+
+      <div class="flex items-center justify-center space-x-2">
+        <Button type="submit">Reveal secret</Button>
+      </div>
+    </form>
+  </div>
 {/if}
