@@ -1,0 +1,12 @@
+---
+import CreateSecret from "../components/CreateSecret.svelte";
+import Layout from "../components/Layout.astro";
+
+export const prerender = true;
+---
+
+<Layout>
+  <div class="p-2 bg-white rounded max-w-[640px] w-full">
+    <CreateSecret client:visible />
+  </div>
+</Layout>

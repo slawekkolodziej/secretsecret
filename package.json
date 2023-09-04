@@ -1,0 +1,23 @@
+{
+  "name": "secret-share",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "^4.0.0",
+    "@astrojs/tailwind": "^5.0.0",
+    "@vercel/kv": "^0.2.2",
+    "astro": "^3.0.6",
+    "svelte": "^4.0.0",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss": "^3.0.24",
+    "zod": "^3.22.2"
+  },
+  "packageManager": "yarn@3.6.3"
+}
