@@ -6,7 +6,7 @@ import { ZodError } from "zod";
 
 export const prerender = false;
 
-const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request }) => {
   try {
     const rawData = await request.json();
     const data = validateSecretSchema.parse(rawData);
@@ -49,9 +49,4 @@ const POST: APIRoute = async ({ request }) => {
       }
     );
   }
-};
-
-// Route handlers in Astro <3.0 uses lower-case names
-export {
-  POST as post
 };
