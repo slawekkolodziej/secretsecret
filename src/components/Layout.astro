@@ -1,9 +1,9 @@
 ---
 import RootLayout from "./RootLayout.astro";
-const title = Astro.props.title ?? "secure secret sharing";
+
 ---
 
-<RootLayout>
+<RootLayout title={Astro.props.title}>
   <main
     class="flex flex-1 flex-col items-center justify-start p-2 pt-0 font-mono"
   >
