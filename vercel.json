@@ -1,3 +1,9 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/heartbeat",
+      "schedule": "0 0 * * *"
+    }
+  ]
 }
