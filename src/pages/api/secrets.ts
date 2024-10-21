@@ -1,15 +1,15 @@
 import { nanoid } from "nanoid";
 import type { APIRoute } from "astro";
+import { isValiError, parse } from "valibot";
 import { kv } from "../../lib/kv";
 import { validateSecretSchema } from "../../lib/schema";
-import { ZodError } from "zod";
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const rawData = await request.json();
-    const data = validateSecretSchema.parse(rawData);
+    const data = parse(validateSecretSchema, rawData);
     const id = nanoid();
 
     await kv.set(
@@ -27,10 +27,10 @@ export const POST: APIRoute = async ({ request }) => {
       id,
     });
   } catch (err: any) {
-    if (err instanceof ZodError) {
+    if (isValiError(err)) {
       return Response.json(
         {
-          error: err.errors[0].message,
+          error: err.message,
         },
         {
           status: 400,

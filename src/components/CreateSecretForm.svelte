@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ZodError } from "zod";
+  import { parse, isValiError } from "valibot";
   import Select from "svelte-select";
   import {
     MAX_SECRET_LENGTH,
@@ -28,6 +28,14 @@
   let formData = getInitialFormData();
   let isSaving = false;
   let errors: Record<string, string> = {};
+  
+  let remainingCharacters: number;
+  let charactersLeftMessage: string;
+  
+  $: remainingCharacters = MAX_SECRET_LENGTH - formData.secret.length;
+  $: charactersLeftMessage = remainingCharacters >= 0
+    ? `${remainingCharacters} characters left`
+    : `${Math.abs(remainingCharacters)} characters over limit`;
 
   function getInitialFormData(): CreateSecretFormData {
     return {
@@ -48,20 +56,23 @@
     errors = {};
     try {
       // Validate
-      const parsedValues = createSecretSchema.parse(values);
+      const parsedValues = parse(createSecretSchema, values);
       // Store
       await onSubmit(parsedValues);
       // Reset form
       formData = getInitialFormData();
     } catch (err) {
-      if (err instanceof ZodError) {
-        errors = err.issues.reduce(
-          (errors, issue) => ({
+
+      if (isValiError(err)) {
+        console.log(err.issues, '<--issues');
+        errors = err.issues.reduce((errors, issue) => {
+          const key = issue.path.map(path => path.key).join('.');
+
+          return {
             ...errors,
-            [issue.path.join(".")]: issue.message,
-          }),
-          {}
-        );
+            [key]: issue.message,
+          }
+        }, {});
       } else {
         console.error(err);
       }
@@ -75,13 +86,12 @@
     label="Secret content:"
     id="secret"
     class="h-32"
-    maxLength={MAX_SECRET_LENGTH}
     placeholder="Put your content here to securely share it with others..."
     error={errors.secret}
     bind:value={formData.secret}
   >
-    <div slot="description" class="text-end">
-        {MAX_SECRET_LENGTH - formData.secret.length} characters left
+    <div slot="description" class="text-end" class:text-red-600={remainingCharacters < 0}>
+        {charactersLeftMessage}
     </div>
   </TextArea>
 

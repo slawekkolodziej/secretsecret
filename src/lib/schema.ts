@@ -1,6 +1,6 @@
-import { z } from "zod";
+import * as v from 'valibot';
 
-export const MAX_SECRET_LENGTH = 500;
+export const MAX_SECRET_LENGTH = 5000;
 export const MAX_PASS_LENGTH = 100;
 export const MIN_PASS_LENGTH = 8;
 
@@ -28,24 +28,25 @@ export interface StoredSecretData {
   destruct: boolean;
 }
 
-export const createSecretSchema = z
-  .object({
-    secret: z.string().min(1).max(MAX_SECRET_LENGTH),
-    passphrase: z.string().min(MIN_PASS_LENGTH).max(MAX_PASS_LENGTH),
-    destruct: z.boolean(),
-    expire: z.enum(expireValues),
+export const createSecretSchema = v
+  .strictObject({
+    secret: v.pipe(v.string(), v.minLength(0), v.maxLength(MAX_SECRET_LENGTH)),
+    passphrase: v.pipe(v.string(), v.minLength(MIN_PASS_LENGTH), v.maxLength(MAX_PASS_LENGTH)),
+    destruct: v.boolean(),
+    expire: v.picklist(expireValues),
   })
-  .strict();
+  // .strict();
 
-export type CreateSecretPayload = z.infer<typeof createSecretSchema>;
+export type CreateSecretPayload = v.InferInput<typeof createSecretSchema>;
 
-export const validateSecretSchema = z.object({
-  secret: z
-    .string()
-    .min(1)
-    .max((MAX_PASS_LENGTH + MAX_SECRET_LENGTH) * 2),
-  destruct: z.boolean(),
-  expire: z.enum(expireValues),
+export const validateSecretSchema = v.strictObject({
+  secret: v.pipe(
+    v.string(),
+    v.minLength(1),
+    v.maxLength((MAX_PASS_LENGTH + MAX_SECRET_LENGTH) * 2)
+  ),
+  destruct: v.boolean(),
+  expire: v.picklist(expireValues),
 });
 
 function assertTuple(args: any): asserts args is [string, ...string[]] {

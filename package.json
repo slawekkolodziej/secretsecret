@@ -20,7 +20,7 @@
     "svelte-select": "^5.8.3",
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "^3.4.1",
-    "zod": "^3.22.4"
+    "valibot": "^0.42.1"
   },
   "packageManager": "yarn@4.1.1",
   "devDependencies": {
