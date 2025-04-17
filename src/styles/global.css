@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@theme {
+  --color-focused: var(--color-violet-500);
+}

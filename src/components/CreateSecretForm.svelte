@@ -155,19 +155,21 @@
 </form>
 
 <style lang="postcss">
-  .select-wrapper {
-    --border: 1px solid theme(colors.gray.200);
-    --border-hover: 1px solid theme(colors.gray.200);
-    --border-focused: 1px solid theme(colors.gray.200);
+  @reference '../styles/global.css';
+
+  :global(.select-wrapper) {
+    --border: 1px solid var(--color-gray-200);
+    --border-hover: 1px solid var(--color-gray-200);
+    --border-focused: 1px solid var(--color-gray-200);
     --border-radius: 0.25rem;
-    --height: 38px;
-    --max-height: 38px;
+    --height: 40px;
+    --max-height: 40px;
   }
 
   .select-wrapper :global(.svelte-select) {
     @apply transition-all;
   }
-  .select-wrapper :global(.svelte-select):has(input:focus) {
+  .select-wrapper :global(.svelte-select.focused) {
     @apply ring-2 ring-focused;
   }
   .select-wrapper > :global(.svelte-select .item.hover) {

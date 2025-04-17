@@ -24,7 +24,7 @@
     class="checkboxBase absolute inset-0 -z-10 opacity-0"
     bind:checked
   />
-  <label for={id} class="py-1.5 px-2 rounded">
+  <label for={id} class="py-2 px-2 rounded flex flex-row gap-2">
     <div
       class={twMerge(
         checkbox.wrapperBase,
@@ -36,13 +36,15 @@
           checkbox.toggleBase,
           checked ? checkbox.toggleChecked : checkbox.toggleUnchecked
         )}
-      />
+      ></div>
     </div>
     <span class="select-none">{label}</span>
   </label>
 </div>
 
 <style lang="postcss">
+  @reference '../styles/global.css' 
+
   .checkboxBase + label {
     @apply flex flex-row space-x-2 transition-all;
   }
