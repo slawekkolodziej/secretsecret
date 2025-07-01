@@ -1,18 +1,16 @@
 <script lang="ts">
   import { twMerge } from "tailwind-merge";
 
-  let className = "";
-
-  export { className as class };
   export let id = "";
   export let label = "";
   export let value = "";
   export let error = "";
+  export let textAreaClass = "";
   export let onClick = (_e: any) => {};
   export let description: string | null = null;
 </script>
 
-<div class="space-y-2">
+<div class={twMerge("space-y-2", $$props.class)}>
   {#if label}
     <label
       for={id}
@@ -32,11 +30,12 @@
       "text-gray-700 leading-tight transition-all",
       "focus:outline-none focus:ring-2 focus:ring-focused",
       error ? "ring-2 ring-red-300" : "",
-      className
+      textAreaClass
     )}
     bind:value
     on:click|preventDefault={onClick}
-  />
+  >
+  </textarea>
 
   {#if error}
     <span class="block text-sm text-red-600 space-y-2">

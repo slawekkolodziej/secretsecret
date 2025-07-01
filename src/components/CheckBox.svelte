@@ -17,14 +17,14 @@
   };
 </script>
 
-<div class='flex items-center relative'>
+<div class={$$props.class}>
   <input
     {id}
     type="checkbox"
     class="checkboxBase absolute inset-0 -z-10 opacity-0"
     bind:checked
   />
-  <label for={id} class="py-2 px-2 rounded flex flex-row gap-2">
+  <label for={id} class="py-1 px-2 rounded flex flex-row items-center gap-2">
     <div
       class={twMerge(
         checkbox.wrapperBase,

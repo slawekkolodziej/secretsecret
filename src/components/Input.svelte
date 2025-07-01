@@ -8,12 +8,12 @@
   export let description: string | null = null;
 </script>
 
-<div class="space-y-2">
+<div class={$$props.class}>
   {#if label}
     <label
       for={id}
       class={twMerge(
-        "block text-gray-700 text-sm font-bold mb-2",
+        "block text-gray-700 text-sm font-bold mb-1",
         error ? "text-red-600" : ""
       )}
     >
@@ -24,9 +24,9 @@
     {...$$restProps}
     {id}
     class={twMerge(
-      "appearance-none border rounded w-full py-2 px-3 mb-3",
-      "text-gray-700 leading-tight transition-all",
-      "focus:outline-none focus:ring-2 focus:ring-focused",
+      "appearance-none border border-gray-200 rounded w-full py-1.5 px-3",
+      "text-gray-700 leading-tight transition-all bg-white",
+      "focus:outline-none focus:ring-2 focus:ring-focused text-base text-gray-500",
       error ? "ring-2 ring-red-300" : ""
     )}
     bind:value
