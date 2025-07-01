@@ -16,6 +16,7 @@
     "@vercel/kv": "^3.0.0",
     "astro": "^5.7.3",
     "humanize-duration": "^3.32.1",
+    "omgopass": "^3.2.1",
     "svelte": "^5.27.1",
     "svelte-select": "^5.8.3",
     "tailwind-merge": "^3.2.0",
@@ -25,6 +26,7 @@
   "packageManager": "yarn@4.1.1",
   "devDependencies": {
     "@types/humanize-duration": "^3.27.4",
+    "@types/omgopass": "^3",
     "typescript": "^5.8.3"
   }
 }
