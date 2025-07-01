@@ -20,6 +20,7 @@ export interface CreateSecretFormData {
   secret: string;
   passphrase: string;
   destruct: boolean;
+  oneClick: boolean;
   expire: { value: number; label: string };
 }
 
@@ -33,9 +34,9 @@ export const createSecretSchema = v
     secret: v.pipe(v.string(), v.minLength(0), v.maxLength(MAX_SECRET_LENGTH)),
     passphrase: v.pipe(v.string(), v.minLength(MIN_PASS_LENGTH), v.maxLength(MAX_PASS_LENGTH)),
     destruct: v.boolean(),
+    oneClick: v.boolean(),
     expire: v.picklist(expireValues),
   })
-  // .strict();
 
 export type CreateSecretPayload = v.InferInput<typeof createSecretSchema>;
 

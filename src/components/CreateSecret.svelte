@@ -21,8 +21,8 @@
     });
 
     if (result.ok) {
-      const data = await result.json();
-      shareLink = getShareUrl(data.id);
+      const { id } = await result.json();
+      shareLink = getShareUrl(id) + '#' + encodeURIComponent(data.passphrase);
     }
   }
 

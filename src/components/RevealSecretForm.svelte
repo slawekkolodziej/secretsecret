@@ -13,6 +13,11 @@
   let passphrase = "";
   let errors: Record<string, string> = {};
 
+  if (typeof window === 'object') {
+    passphrase = decodeURIComponent(window.location.hash.slice(1))
+    handleDecrypt();
+  }
+
   async function handleDecrypt() {
     errors = {};
 
