@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { twMerge } from "tailwind-merge";
+  import { twMerge } from 'tailwind-merge';
 
-  export let id = "";
-  export let label = "";
-  export let value = "";
-  export let error = "";
+  export let id = '';
+  export let label = '';
+  export let value = '';
+  export let error = '';
   export let description: string | null = null;
 </script>
 
@@ -13,8 +13,8 @@
     <label
       for={id}
       class={twMerge(
-        "block text-gray-700 text-sm font-bold mb-1",
-        error ? "text-red-600" : ""
+        'block text-gray-700 text-sm font-bold mb-1',
+        error ? 'text-red-600' : ''
       )}
     >
       {label}
@@ -24,10 +24,10 @@
     {...$$restProps}
     {id}
     class={twMerge(
-      "appearance-none border border-gray-200 rounded w-full py-1.5 px-3",
-      "text-gray-700 leading-tight transition-all bg-white",
-      "focus:outline-none focus:ring-2 focus:ring-focused text-base text-gray-500",
-      error ? "ring-2 ring-red-300" : ""
+      'appearance-none border border-gray-200 rounded w-full py-1.5 px-3',
+      'text-gray-700 leading-tight transition-all bg-white',
+      'focus:outline-none focus:ring-2 focus:ring-focused text-base text-gray-500',
+      error ? 'ring-2 ring-red-300' : ''
     )}
     bind:value
   />

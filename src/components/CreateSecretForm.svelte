@@ -1,34 +1,38 @@
 <script lang="ts">
-  import { parse, isValiError } from "valibot";
-  import Select from "svelte-select";
+  import { parse, isValiError } from 'valibot';
+  import Select from 'svelte-select';
   import omgopass from 'omgopass';
   import {
     MAX_SECRET_LENGTH,
     MAX_PASS_LENGTH,
     createSecretSchema,
     type CreateSecretPayload,
-    type CreateSecretFormData,
-  } from "../lib/schema";
-  import Button from "./Button.svelte";
-  import Input from "./Input.svelte";
-  import TextArea from "./TextArea.svelte";
-  import CheckBox from "./CheckBox.svelte";
-  import FormField from "./FormField.svelte";
+    type CreateSecretFormData
+  } from '../lib/schema';
+  import Button from './Button.svelte';
+  import Input from './Input.svelte';
+  import TextArea from './TextArea.svelte';
+  import CheckBox from './CheckBox.svelte';
+  import FormField from './FormField.svelte';
   import Collapsible from './Collapsible.svelte';
   import FileDropZone from './FileDropZone.svelte';
-  import AttachedFiles from "./AttachedFiles.svelte";
+  import AttachedFiles from './AttachedFiles.svelte';
   import { persistentStore } from '../lib/persistentStore';
-  import { calculateSecretSize, formatSecretSize, type FileData } from '../lib/schema';
+  import {
+    calculateSecretSize,
+    formatSecretSize,
+    type FileData
+  } from '../lib/schema';
 
   export let onSubmit = (_data: CreateSecretPayload) =>
     console.error(`Missing submit handler`);
 
   const expireOptions = [
-    { label: "7 days", value: 3600 * 24 * 7 },
-    { label: "1 day", value: 3600 * 24 },
-    { label: "8 hours", value: 3600 * 8 },
-    { label: "4 hours", value: 3600 * 4 },
-    { label: "1 hour", value: 3600 },
+    { label: '7 days', value: 3600 * 24 * 7 },
+    { label: '1 day', value: 3600 * 24 },
+    { label: '8 hours', value: 3600 * 8 },
+    { label: '4 hours', value: 3600 * 4 },
+    { label: '1 hour', value: 3600 }
   ];
 
   const formOptions = persistentStore('form-options', {
@@ -50,9 +54,10 @@
 
   $: secretSize = calculateSecretSize(formData.secret, attachedFiles);
   $: remainingSize = MAX_SECRET_LENGTH - secretSize;
-  $: sizeMessage = remainingSize >= 0
-    ? `${formatSecretSize(remainingSize)} remaining`
-    : `${formatSecretSize(Math.abs(remainingSize))} over limit`;
+  $: sizeMessage =
+    remainingSize >= 0
+      ? `${formatSecretSize(remainingSize)} remaining`
+      : `${formatSecretSize(Math.abs(remainingSize))} over limit`;
 
   $: $formOptions.expireIn = formData.expire;
   $: $formOptions.destruct = formData.destruct;
@@ -61,16 +66,16 @@
   function getInitialFormData(): CreateSecretFormData {
     const defaultExpire = expireOptions[0];
     const persistedExpire = $formOptions?.expireIn
-      ? expireOptions.find(opt => opt.value === $formOptions?.expireIn.value)
+      ? expireOptions.find((opt) => opt.value === $formOptions?.expireIn.value)
       : defaultExpire;
 
     return {
       expire: persistedExpire ?? defaultExpire,
       destruct: $formOptions.destruct ?? true,
       oneClick: $formOptions.oneClick ?? true,
-      secret: "",
+      secret: '',
       passphrase: generatePassword(),
-      files: [],
+      files: []
     };
   }
 
@@ -83,14 +88,14 @@
       const validData = parse(createSecretSchema, {
         ...formData,
         expire: String(formData.expire.value),
-        files: attachedFiles,
+        files: attachedFiles
       });
 
       await onSubmit(validData);
     } catch (err) {
       if (isValiError(err)) {
         errors = err.issues.reduce((errors, issue) => {
-          const key = issue.path?.map((path) => path.key).join(".");
+          const key = issue.path?.map((path) => path.key).join('.');
 
           if (!key) {
             generalError = issue.message;
@@ -99,7 +104,7 @@
 
           return {
             ...errors,
-            [key]: issue.message,
+            [key]: issue.message
           };
         }, {});
       } else {
@@ -121,11 +126,11 @@
 
       const tryToResolve = () => {
         processedCount += 1;
-        
+
         if (processedCount === filesArray.length) {
           resolve(newFiles);
         }
-      }
+      };
 
       filesArray.forEach((file) => {
         const reader = new FileReader();
@@ -135,16 +140,16 @@
             const fileData: FileData = {
               name: file.name,
               dataUri: event.target.result as string,
-              size: file.size,
+              size: file.size
             };
             newFiles.push(fileData);
             tryToResolve();
           }
         };
-        reader.onerror = (event) => {
-          console.log('Could not load this file:', file.name)
+        reader.onerror = (_event) => {
+          console.log('Could not load this file:', file.name);
           tryToResolve();
-        }
+        };
         reader.readAsDataURL(file);
       });
     });
@@ -152,10 +157,10 @@
 
   async function handleFileInput(fileList: FileList) {
     if (!fileList || fileList.length === 0) {
-      console.log('why are we here?')
+      console.log('why are we here?');
       return;
     }
-    
+
     const newFiles = await processFileList(fileList);
     attachedFiles = [...attachedFiles, ...newFiles];
     handleFilesChange(attachedFiles);
@@ -183,7 +188,7 @@
       maxSyllableLength: 6,
       hasNumbers: false,
       titlecased: false,
-      separators: "-",
+      separators: '-'
     });
   }
 
@@ -191,7 +196,7 @@
     formData.passphrase = generatePassword();
   }
 
-  function handleDelete(file: FileData, index: number) {
+  function handleDelete(_file: FileData, index: number) {
     attachedFiles = attachedFiles.filter((_, i) => i !== index);
     handleFilesChange(attachedFiles);
   }
@@ -203,7 +208,9 @@
   onFileInput={handleFileInput}
   class="space-y-16 flex flex-col"
 >
-  <h1 class="text-violet-800 text-xl text-center">Got something sensitive to share?</h1>
+  <h1 class="text-violet-800 text-xl text-center">
+    Got something sensitive to share?
+  </h1>
 
   <form on:submit|preventDefault={handleSubmit}>
     <TextArea
@@ -212,17 +219,23 @@
       class="mb-4"
       textAreaClass="h-64"
       placeholder={[
-        "Put your content here to securely share it with others.",
-        "You can also drag & drop files here.",
-        "",
-        "Everything is encrypted locally, inside your browser, before it gets uploaded!"
-        ].join('\n')}
+        'Put your content here to securely share it with others.',
+        'You can also drag & drop files here.',
+        '',
+        'Everything is encrypted locally, inside your browser, before it gets uploaded!'
+      ].join('\n')}
       error={errors.secret || generalError}
       bind:value={formData.secret}
     >
-      <div slot="labelRight" class="text-end" class:text-red-600={remainingSize < 0}>
-        {sizeMessage} | 
-        <button on:click={openFileDialog} class="cursor-pointer">attach files</button> 
+      <div
+        slot="labelRight"
+        class="text-end"
+        class:text-red-600={remainingSize < 0}
+      >
+        {sizeMessage} |
+        <button on:click={openFileDialog} class="cursor-pointer"
+          >attach files</button
+        >
       </div>
     </TextArea>
 
@@ -243,14 +256,12 @@
     {/if}
 
     <div class="flex items-center justify-center my-8">
-      <Button type="submit">{isSaving ? "Working..." : "Encrypt"}</Button>
+      <Button type="submit">{isSaving ? 'Working...' : 'Encrypt'}</Button>
     </div>
 
     <Collapsible class="bg-slate-50 p-4" bind:expanded={$formOptions.expanded}>
-      <svelte:fragment slot="label">
-        Privacy Settings
-      </svelte:fragment>
-    
+      <svelte:fragment slot="label">Privacy Settings</svelte:fragment>
+
       <svelte:fragment slot="content">
         <div class="space-y-4">
           <div class="relative">
@@ -265,16 +276,33 @@
               bind:value={formData.passphrase}
               class="width-full"
             />
-            <button type="button" aria-label="Generate new password" class="absolute top-0 right-0 mt-8.5 mr-3 cursor-pointer" on:click={updatePassword}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="18" height="18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 13v-1a8 8 0 0 1 14.2-5m1.7 4 .1 1a8 8 0 0 1-14 5.3m3-.3H6v.3M18.2 4v3m0 0v0h-3M6 20v-2.7"/>
+            <button
+              type="button"
+              aria-label="Generate new password"
+              class="absolute top-0 right-0 mt-8.5 mr-3 cursor-pointer"
+              on:click={updatePassword}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 13v-1a8 8 0 0 1 14.2-5m1.7 4 .1 1a8 8 0 0 1-14 5.3m3-.3H6v.3M18.2 4v3m0 0v0h-3M6 20v-2.7"
+                />
               </svg>
             </button>
           </div>
-          
-          <hr class="my-6 border-slate-200">
+
+          <hr class="my-6 border-slate-200" />
           <p>Settings below are stored locally in your browser.</p>
-          
+
           <div class="select-wrapper">
             <label
               for="expiration"
@@ -311,16 +339,19 @@
       </svelte:fragment>
     </Collapsible>
 
-    <Collapsible class="bg-slate-50 p-4 border-gray-200/75 border-t-1" bind:expanded={$helpOptions.expanded}>
-      <svelte:fragment slot="label">
-        Instructions
-      </svelte:fragment>
+    <Collapsible
+      class="bg-slate-50 p-4 border-gray-200/75 border-t-1"
+      bind:expanded={$helpOptions.expanded}
+    >
+      <svelte:fragment slot="label">Instructions</svelte:fragment>
 
       <svelte:fragment slot="content">
         <div class="space-y-6">
           <div class="space-y-2">
             <h2 class="text-lg font-semibold text-gray-700">How to use it?</h2>
-            <ol class="list-decimal list-inside space-y-1 text-sm text-gray-600">
+            <ol
+              class="list-decimal list-inside space-y-1 text-sm text-gray-600"
+            >
               <li>Type the secret that you want to share</li>
               <li>Click the "Encrypt" button</li>
               <li>Share the link with your recipient</li>
@@ -328,21 +359,36 @@
           </div>
 
           <div class="space-y-2">
-            <h2 class="text-lg font-semibold text-gray-700">Security details</h2>
+            <h2 class="text-lg font-semibold text-gray-700">
+              Security details
+            </h2>
             <div class="text-sm text-gray-600 space-y-2">
               <ul class="list-disc pl-4 space-y-4">
                 <li>
-                  Your secret is encrypted in your browser using the <a class="underline" href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto" target="_blank">
-                  Web Crypto API</a> with PBKDF2 key derivation. The password never leaves your device.
+                  Your secret is encrypted in your browser using the <a
+                    class="underline"
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto"
+                    target="_blank"
+                  >
+                    Web Crypto API</a
+                  > with PBKDF2 key derivation. The password never leaves your device.
                 </li>
                 <li>
-                  One-click links embed the password in the URL hash fragment (#), which is never sent 
-                  to the server, ensuring complete end-to-end security.
+                  One-click links embed the password in the URL hash fragment
+                  (#), which is never sent to the server, ensuring complete
+                  end-to-end security.
                 </li>
                 <li>
-                  Files are never directly uploaded to the server. Instead their content is read using 
-                  <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader">FileReader API</a>, 
-                  converted to <a href="https://developer.mozilla.org/en-US/docs/Glossary/Base64">Base64</a> 
+                  Files are never directly uploaded to the server. Instead their
+                  content is read using
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader"
+                    >FileReader API</a
+                  >, converted to
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Glossary/Base64"
+                    >Base64</a
+                  >
                   and appended to your secret.
                 </li>
               </ul>
@@ -351,7 +397,6 @@
         </div>
       </svelte:fragment>
     </Collapsible>
-
   </form>
 </FileDropZone>
 

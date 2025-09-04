@@ -1,29 +1,30 @@
 <script lang="ts">
-  import { encryptData } from "../lib/browserCrypto";
-  import type { CreateSecretPayload } from "../lib/schema";
-  import CreateSecretForm from "./CreateSecretForm.svelte";
-  import PresentShareLink from "./PresentShareLink.svelte";
+  import { encryptData } from '../lib/browserCrypto';
+  import type { CreateSecretPayload } from '../lib/schema';
+  import CreateSecretForm from './CreateSecretForm.svelte';
+  import PresentShareLink from './PresentShareLink.svelte';
 
-  let shareData: { link: string; password?: string; oneClick: boolean } | null = null;
+  let shareData: { link: string; password?: string; oneClick: boolean } | null =
+    null;
 
   async function handleSubmit(data: CreateSecretPayload) {
     const secret = await encryptData(data.secret, data.passphrase);
-    const result = await fetch("/api/secrets", {
-      method: "POST",
+    const result = await fetch('/api/secrets', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         expire: data.expire,
         destruct: data.destruct,
-        secret,
-      }),
+        secret
+      })
     });
 
     if (result.ok) {
       const { id } = await result.json();
       const baseUrl = getShareUrl(id);
-      
+
       if (data.oneClick) {
         // One-click: embed password in URL hash
         shareData = {

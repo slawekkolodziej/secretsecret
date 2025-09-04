@@ -3,7 +3,7 @@ const buff_to_base64 = (buff: any) =>
   btoa(
     new Uint8Array(buff).reduce(
       (data, byte) => data + String.fromCharCode(byte),
-      ""
+      ''
     )
   );
 
@@ -15,20 +15,24 @@ const enc = new TextEncoder();
 const dec = new TextDecoder();
 
 const getPasswordKey = (password: string) =>
-  window.crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, [
-    "deriveKey",
+  window.crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, [
+    'deriveKey'
   ]);
 
-const deriveKey = (passwordKey: CryptoKey, salt: Uint8Array, keyUsage: KeyUsage[]) =>
+const deriveKey = (
+  passwordKey: CryptoKey,
+  salt: Uint8Array,
+  keyUsage: KeyUsage[]
+) =>
   window.crypto.subtle.deriveKey(
     {
-      name: "PBKDF2",
+      name: 'PBKDF2',
       salt: salt,
       iterations: 250000,
-      hash: "SHA-256",
+      hash: 'SHA-256'
     },
     passwordKey,
-    { name: "AES-GCM", length: 256 },
+    { name: 'AES-GCM', length: 256 },
     false,
     keyUsage
   );
@@ -37,11 +41,11 @@ export async function encryptData(secretData: string, password: string) {
   const salt = window.crypto.getRandomValues(new Uint8Array(16));
   const iv = window.crypto.getRandomValues(new Uint8Array(12));
   const passwordKey = await getPasswordKey(password);
-  const aesKey = await deriveKey(passwordKey, salt, ["encrypt"]);
+  const aesKey = await deriveKey(passwordKey, salt, ['encrypt']);
   const encryptedContent = await window.crypto.subtle.encrypt(
     {
-      name: "AES-GCM",
-      iv: iv,
+      name: 'AES-GCM',
+      iv: iv
     },
     aesKey,
     enc.encode(secretData)
@@ -64,11 +68,11 @@ export async function decryptData(encryptedData: string, password: string) {
   const iv = encryptedDataBuff.slice(16, 16 + 12);
   const data = encryptedDataBuff.slice(16 + 12);
   const passwordKey = await getPasswordKey(password);
-  const aesKey = await deriveKey(passwordKey, salt, ["decrypt"]);
+  const aesKey = await deriveKey(passwordKey, salt, ['decrypt']);
   const decryptedContent = await window.crypto.subtle.decrypt(
     {
-      name: "AES-GCM",
-      iv: iv,
+      name: 'AES-GCM',
+      iv: iv
     },
     aesKey,
     data

@@ -1,8 +1,8 @@
-import { nanoid } from "nanoid";
-import type { APIRoute } from "astro";
-import { isValiError, parse } from "valibot";
-import { kv } from "../../lib/kv";
-import { validateSecretSchema } from "../../lib/schema";
+import { nanoid } from 'nanoid';
+import type { APIRoute } from 'astro';
+import { isValiError, parse } from 'valibot';
+import { kv } from '../../lib/kv';
+import { validateSecretSchema } from '../../lib/schema';
 
 export const prerender = false;
 
@@ -16,24 +16,24 @@ export const POST: APIRoute = async ({ request }) => {
       id,
       JSON.stringify({
         destruct: data.destruct,
-        secret: data.secret,
+        secret: data.secret
       }),
       {
-        ex: parseInt(data.expire),
+        ex: parseInt(data.expire)
       }
     );
 
     return Response.json({
-      id,
+      id
     });
   } catch (err: any) {
     if (isValiError(err)) {
       return Response.json(
         {
-          error: err.message,
+          error: err.message
         },
         {
-          status: 400,
+          status: 400
         }
       );
     }
@@ -42,10 +42,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     return Response.json(
       {
-        error: `Something went wrong`,
+        error: `Something went wrong`
       },
       {
-        status: 500,
+        status: 500
       }
     );
   }

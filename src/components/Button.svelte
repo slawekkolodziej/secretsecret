@@ -1,6 +1,5 @@
 <script lang="ts">
-  export let type: "button" | "submit" | "reset" = "button";
-  
+  export let type: 'button' | 'submit' | 'reset' = 'button';
 </script>
 
 <button

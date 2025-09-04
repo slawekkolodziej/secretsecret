@@ -1,7 +1,7 @@
 <script lang="ts">
   export let label = 'Create another secret';
   export let onClick: () => void = () => {
-    window.location.href = '/'
+    window.location.href = '/';
   };
 </script>
 

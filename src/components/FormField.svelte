@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { twMerge } from "tailwind-merge";
+  import { twMerge } from 'tailwind-merge';
 
-  export let id = "";
-  export let label = "";
-  export let error = "";
+  export let id = '';
+  export let label = '';
+  export let error = '';
   export let description: string | null = null;
 </script>
 
@@ -12,8 +12,8 @@
     <label
       for={id}
       class={twMerge(
-        "block text-gray-700 text-sm font-bold mb-2",
-        error ? "text-red-600" : ""
+        'block text-gray-700 text-sm font-bold mb-2',
+        error ? 'text-red-600' : ''
       )}
     >
       {label}

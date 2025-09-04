@@ -8,65 +8,97 @@ import globals from 'globals';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
 
+// Shared configuration
+const sharedConfig = {
+  languageOptions: {
+    globals: {
+      ...globals.browser,
+      ...globals.es2021,
+    },
+  },
+  plugins: {
+    '@typescript-eslint': tsPlugin,
+    prettier: prettierPlugin,
+  },
+  rules: {
+    ...prettierConfig.rules,
+    'prettier/prettier': 'error',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        ignoreRestSiblings: true,
+        args: 'all',
+        argsIgnorePattern: '^_',
+        caughtErrors: 'all',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+      },
+    ],
+    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/ban-ts-comment': 'warn',
+  },
+};
+
 export default [
   js.configs.recommended,
   {
     files: ['**/*.ts', '**/*.js'],
     languageOptions: {
+      ...sharedConfig.languageOptions,
       parser: tsParser,
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: './tsconfig.json'
+        project: './tsconfig.json',
       },
-      globals: {
-        ...globals.browser,
-        ...globals.es2021
-      }
     },
     plugins: {
-      '@typescript-eslint': tsPlugin,
-      prettier: prettierPlugin
+      ...sharedConfig.plugins,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
-      ...prettierConfig.rules,
-      'prettier/prettier': 'error',
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/ban-ts-comment': 'warn'
-    }
+      ...sharedConfig.rules,
+    },
   },
   {
     files: ['**/*.svelte'],
     languageOptions: {
+      ...sharedConfig.languageOptions,
       parser: svelteParser,
       parserOptions: {
-        parser: tsParser
+        parser: tsParser,
       },
-      globals: {
-        ...globals.browser,
-        ...globals.es2021
-      }
     },
     plugins: {
+      ...sharedConfig.plugins,
       svelte: sveltePlugin,
-      prettier: prettierPlugin
     },
     rules: {
+      ...tsPlugin.configs.recommended.rules,
       ...sveltePlugin.configs.recommended.rules,
-      ...prettierConfig.rules,
-      'prettier/prettier': 'error'
-    }
+      ...sharedConfig.rules,
+    },
   },
-  ...astroPlugin.configs.recommended.map(config => ({
+  ...astroPlugin.configs.recommended.map((config) => ({
     ...config,
     languageOptions: {
       ...config.languageOptions,
+      ...sharedConfig.languageOptions,
       globals: {
-        ...globals.browser,
-        ...globals.node
-      }
-    }
-  }))
+        ...config.languageOptions?.globals,
+        ...sharedConfig.languageOptions.globals,
+        ...globals.node,
+      },
+    },
+    plugins: {
+      ...config.plugins,
+      ...sharedConfig.plugins,
+    },
+    rules: {
+      ...config.rules,
+      ...sharedConfig.rules,
+    },
+  })),
 ];

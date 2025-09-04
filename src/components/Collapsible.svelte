@@ -1,24 +1,34 @@
 <script lang="ts">
-  import { twMerge } from "tailwind-merge";
+  import { twMerge } from 'tailwind-merge';
 
-  export let labelClass: string = "";
+  export let labelClass: string = '';
   export let expanded: boolean = false;
 </script>
 
 <div class={$$props.class}>
   <label class="select-none cursor-pointer">
-    <div class={twMerge("text-lg flex flex-row items-center justify-between", labelClass)}>
+    <div
+      class={twMerge(
+        'text-lg flex flex-row items-center justify-between',
+        labelClass
+      )}
+    >
       <input class="hidden" type="checkbox" bind:checked={expanded} />
       <slot name="label" />
       <svg
-        xmlns="http://www.w3.org/2000/svg" 
+        xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
         fill="none"
         viewBox="0 0 24 24"
         class={twMerge('transition', expanded ? 'rotate-0' : 'rotate-180')}
       >
-        <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="m17 9.5-5 5-5-5"/>
+        <path
+          stroke="#000"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m17 9.5-5 5-5-5"
+        />
       </svg>
     </div>
   </label>

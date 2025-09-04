@@ -1,15 +1,15 @@
-import * as v from "valibot";
+import * as v from 'valibot';
 
 export const MAX_SECRET_LENGTH = 50000; // This caps secret AND size of all attached files
 export const MAX_PASS_LENGTH = 100;
 export const MIN_PASS_LENGTH = 8;
 
 export const expireOptions = [
-  { label: "7 days", value: 3600 * 24 * 7 },
-  { label: "1 day", value: 3600 * 24 },
-  { label: "8 hours", value: 3600 * 8 },
-  { label: "4 hours", value: 3600 * 4 },
-  { label: "1 hour", value: 3600 },
+  { label: '7 days', value: 3600 * 24 * 7 },
+  { label: '1 day', value: 3600 * 24 },
+  { label: '8 hours', value: 3600 * 8 },
+  { label: '4 hours', value: 3600 * 4 },
+  { label: '1 hour', value: 3600 }
 ] as const;
 
 const expireValues = expireOptions.map((option) => String(option.value));
@@ -56,22 +56,22 @@ export const createSecretSchema = v.pipe(
       v.object({
         name: v.string(),
         dataUri: v.string(),
-        size: v.number(),
+        size: v.number()
       })
-    ),
+    )
   }),
   v.check((data) => {
     const hasText = data.secret.trim().length > 0;
     const hasFiles = data.files.length > 0;
 
     return hasText || hasFiles;
-  }, "Please provide either text content or attach files to create a secret"),
+  }, 'Please provide either text content or attach files to create a secret'),
   v.transform(({ secret, files, ...rest }) => ({
     ...rest,
     secret: JSON.stringify({
       text: secret,
-      files,
-    }),
+      files
+    })
   }))
 );
 
@@ -84,10 +84,10 @@ export const validateSecretSchema = v.strictObject({
     v.maxLength((MAX_PASS_LENGTH + MAX_SECRET_LENGTH) * 2)
   ),
   destruct: v.boolean(),
-  expire: v.picklist(expireValues),
+  expire: v.picklist(expireValues)
 });
 
-function assertTuple(_args: any): asserts _args is [string, ...string[]] {
+function assertTuple(_args: unknown): asserts _args is [string, ...string[]] {
   return;
 }
 

@@ -3,7 +3,7 @@
 
   export let shareData: { link: string; password?: string; oneClick: boolean };
   export let onCreateAnother: any;
-  
+
   function handleFocus(e: any) {
     e.target.select();
   }
@@ -25,9 +25,14 @@
       bind:value={shareData.link}
     />
     {#if shareData.oneClick}
-      <p class="mt-2">You're all set! Just send this link to whoever needs it.</p>
+      <p class="mt-2">
+        You're all set! Just send this link to whoever needs it.
+      </p>
     {:else}
-      <label for="password-to-share" class="block text-gray-700 text-sm font-bold">
+      <label
+        for="password-to-share"
+        class="block text-gray-700 text-sm font-bold"
+      >
         Password:
       </label>
       <input
@@ -40,7 +45,8 @@
       />
 
       <p class="mt-2">
-        You're all set! Just send this link and password to whoever needs access - they'll need both.
+        You're all set! Just send this link and password to whoever needs access
+        - they'll need both.
       </p>
     {/if}
   </div>
