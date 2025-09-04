@@ -2,9 +2,13 @@ import { defineConfig } from 'vitest/config';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
-  plugins: [svelte()],
+  plugins: [
+    svelte({
+      hot: !process.env.VITEST
+    })
+  ],
   test: {
-    environment: 'jsdom',
+    environment: 'happy-dom',
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/**/*.{test,spec}.{js,ts,svelte}'],
     globals: true,
@@ -41,6 +45,14 @@ export default defineConfig({
   resolve: {
     alias: {
       $lib: new URL('./src/lib', import.meta.url).pathname
-    }
+    },
+    conditions: ['browser']
+  },
+  // Ensure Svelte is processed for client-side testing
+  ssr: {
+    noExternal: ['@testing-library/svelte']
+  },
+  define: {
+    global: 'globalThis'
   }
 });

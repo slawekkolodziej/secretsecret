@@ -1624,6 +1624,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/user-event@npm:^14.6.1":
+  version: 14.6.1
+  resolution: "@testing-library/user-event@npm:14.6.1"
+  peerDependencies:
+    "@testing-library/dom": ">=7.21.4"
+  checksum: 10/34b74fff56a0447731a94b40d4cf246deb8dbc1c1e3aec93acd1c3377a760bb062e979f1572bb34ec164ad28ee2a391744b42d0d6d6cc16c4ce527e5e09610e1
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -1741,6 +1750,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^20.0.0":
+  version: 20.19.13
+  resolution: "@types/node@npm:20.19.13"
+  dependencies:
+    undici-types: "npm:~6.21.0"
+  checksum: 10/41014282d24d4a218dcbda6ed09d8d2692fe988426bc030e629d560c7f7886aaaaaaf94cba3c486c6c3d7a4ab4afcbe7dac941a661803b9be340af2a9246aab8
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^24.3.1":
   version: 24.3.1
   resolution: "@types/node@npm:24.3.1"
@@ -1761,6 +1779,13 @@ __metadata:
   version: 3.0.2
   resolution: "@types/unist@npm:3.0.2"
   checksum: 10/3d04d0be69316e5f14599a0d993a208606c12818cf631fd399243d1dc7a9bd8a3917d6066baa6abc290814afbd744621484756803c80cba892c39cd4b4a85616
+  languageName: node
+  linkType: hard
+
+"@types/whatwg-mimetype@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/whatwg-mimetype@npm:3.0.2"
+  checksum: 10/609607beeaa8b50b9e00541d8f571880d651b26b6b006103370099aba00784037de54433627c9fe775a5558e3d1fc09c2a48f54c8af91988e9bebeaf6a698eeb
   languageName: node
   linkType: hard
 
@@ -3925,6 +3950,17 @@ __metadata:
     ufo: "npm:^1.5.4"
     uncrypto: "npm:^0.1.3"
   checksum: 10/abd373449d8fb36fba7dea66071f5c5badaea489c1762995a94ca95b7c5eefd470ba47bb9ba3507405c231547d421366abe6e55d6645bb7e8dbd1a9717f1e1cb
+  languageName: node
+  linkType: hard
+
+"happy-dom@npm:^18.0.1":
+  version: 18.0.1
+  resolution: "happy-dom@npm:18.0.1"
+  dependencies:
+    "@types/node": "npm:^20.0.0"
+    "@types/whatwg-mimetype": "npm:^3.0.2"
+    whatwg-mimetype: "npm:^3.0.0"
+  checksum: 10/27f6638d7b8bc67f97ddde7f004e47785ae1487e14065d7c6119adbb9ba7d8a53935d5714d37d9f60efef7f9b180a41c2b7fbbdffcea57b6d04060360a1a1d03
   languageName: node
   linkType: hard
 
@@ -6668,6 +6704,7 @@ __metadata:
     "@tailwindcss/vite": "npm:^4.1.4"
     "@testing-library/jest-dom": "npm:^6.8.0"
     "@testing-library/svelte": "npm:^5.2.8"
+    "@testing-library/user-event": "npm:^14.6.1"
     "@types/humanize-duration": "npm:^3.27.4"
     "@types/node": "npm:^24.3.1"
     "@types/omgopass": "npm:^3"
@@ -6684,6 +6721,7 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.5.4"
     eslint-plugin-svelte: "npm:^3.12.1"
     globals: "npm:^16.3.0"
+    happy-dom: "npm:^18.0.1"
     humanize-duration: "npm:^3.32.1"
     jsdom: "npm:^26.1.0"
     omgopass: "npm:^3.2.1"
@@ -7468,6 +7506,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"undici-types@npm:~6.21.0":
+  version: 6.21.0
+  resolution: "undici-types@npm:6.21.0"
+  checksum: 10/ec8f41aa4359d50f9b59fa61fe3efce3477cc681908c8f84354d8567bb3701fafdddf36ef6bff307024d3feb42c837cf6f670314ba37fc8145e219560e473d14
+  languageName: node
+  linkType: hard
+
 "undici-types@npm:~7.10.0":
   version: 7.10.0
   resolution: "undici-types@npm:7.10.0"
@@ -8022,6 +8067,13 @@ __metadata:
   dependencies:
     iconv-lite: "npm:0.6.3"
   checksum: 10/bbef815eb67f91487c7f2ef96329743f5fd8357d7d62b1119237d25d41c7e452dff8197235b2d3c031365a17f61d3bb73ca49d0ed1582475aa4a670815e79534
+  languageName: node
+  linkType: hard
+
+"whatwg-mimetype@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "whatwg-mimetype@npm:3.0.0"
+  checksum: 10/96f9f628c663c2ae05412c185ca81b3df54bcb921ab52fe9ebc0081c1720f25d770665401eb2338ab7f48c71568133845638e18a81ed52ab5d4dcef7d22b40ef
   languageName: node
   linkType: hard
 

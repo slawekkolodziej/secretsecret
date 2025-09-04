@@ -24,3 +24,15 @@ if (typeof window !== 'undefined') {
     writable: true
   });
 }
+
+// Ensure we're in browser/DOM mode for Svelte
+if (typeof window !== 'undefined') {
+  // Ensure window object exists and has proper properties
+  Object.defineProperty(window, 'process', {
+    value: {
+      browser: true,
+      env: { NODE_ENV: 'test' }
+    },
+    writable: true
+  });
+}
