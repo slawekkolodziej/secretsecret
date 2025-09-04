@@ -1,6 +1,6 @@
-import * as v from 'valibot';
+import * as v from "valibot";
 
-export const MAX_SECRET_LENGTH = 5000;
+export const MAX_SECRET_LENGTH = 50000; // This caps secret AND size of all attached files
 export const MAX_PASS_LENGTH = 100;
 export const MIN_PASS_LENGTH = 8;
 
@@ -16,12 +16,24 @@ const expireValues = expireOptions.map((option) => String(option.value));
 
 assertTuple(expireValues);
 
+export interface FileData {
+  name: string;
+  dataUri: string;
+  size: number;
+}
+
+export interface SecretData {
+  text: string;
+  files: FileData[];
+}
+
 export interface CreateSecretFormData {
   secret: string;
   passphrase: string;
   destruct: boolean;
   oneClick: boolean;
   expire: { value: number; label: string };
+  files: FileData[];
 }
 
 export interface StoredSecretData {
@@ -29,16 +41,41 @@ export interface StoredSecretData {
   destruct: boolean;
 }
 
-export const createSecretSchema = v
-  .strictObject({
+export const createSecretSchema = v.pipe(
+  v.strictObject({
     secret: v.pipe(v.string(), v.minLength(0), v.maxLength(MAX_SECRET_LENGTH)),
-    passphrase: v.pipe(v.string(), v.minLength(MIN_PASS_LENGTH), v.maxLength(MAX_PASS_LENGTH)),
+    passphrase: v.pipe(
+      v.string(),
+      v.minLength(MIN_PASS_LENGTH),
+      v.maxLength(MAX_PASS_LENGTH)
+    ),
     destruct: v.boolean(),
     oneClick: v.boolean(),
     expire: v.picklist(expireValues),
-  })
+    files: v.array(
+      v.object({
+        name: v.string(),
+        dataUri: v.string(),
+        size: v.number(),
+      })
+    ),
+  }),
+  v.check((data) => {
+    const hasText = data.secret.trim().length > 0;
+    const hasFiles = data.files.length > 0;
 
-export type CreateSecretPayload = v.InferInput<typeof createSecretSchema>;
+    return hasText || hasFiles;
+  }, "Please provide either text content or attach files to create a secret"),
+  v.transform(({ secret, files, ...rest }) => ({
+    ...rest,
+    secret: JSON.stringify({
+      text: secret,
+      files,
+    }),
+  }))
+);
+
+export type CreateSecretPayload = v.InferOutput<typeof createSecretSchema>;
 
 export const validateSecretSchema = v.strictObject({
   secret: v.pipe(
@@ -50,6 +87,18 @@ export const validateSecretSchema = v.strictObject({
   expire: v.picklist(expireValues),
 });
 
-function assertTuple(args: any): asserts args is [string, ...string[]] {
+function assertTuple(_args: any): asserts _args is [string, ...string[]] {
   return;
+}
+
+export function calculateSecretSize(text: string, files: FileData[]): number {
+  const textSize = new TextEncoder().encode(text).length;
+  const filesSize = files.reduce((total, file) => total + file.size, 0);
+  return textSize + filesSize;
+}
+
+export function formatSecretSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} bytes`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }

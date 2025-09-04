@@ -4,7 +4,7 @@
   import CreateSecretForm from "./CreateSecretForm.svelte";
   import PresentShareLink from "./PresentShareLink.svelte";
 
-  let shareLink: null | string = null;
+  let shareData: { link: string; password?: string; oneClick: boolean } | null = null;
 
   async function handleSubmit(data: CreateSecretPayload) {
     const secret = await encryptData(data.secret, data.passphrase);
@@ -22,12 +22,27 @@
 
     if (result.ok) {
       const { id } = await result.json();
-      shareLink = getShareUrl(id) + '#' + encodeURIComponent(data.passphrase);
+      const baseUrl = getShareUrl(id);
+      
+      if (data.oneClick) {
+        // One-click: embed password in URL hash
+        shareData = {
+          link: baseUrl + '#' + encodeURIComponent(data.passphrase),
+          oneClick: true
+        };
+      } else {
+        // Manual: separate link and password
+        shareData = {
+          link: baseUrl,
+          password: data.passphrase,
+          oneClick: false
+        };
+      }
     }
   }
 
   function handleCreateAnother() {
-    shareLink = null;
+    shareData = null;
   }
 
   function getShareUrl(id: string) {
@@ -36,8 +51,8 @@
   }
 </script>
 
-{#if shareLink}
-  <PresentShareLink onCreateAnother={handleCreateAnother} shareLink={shareLink} />
+{#if shareData}
+  <PresentShareLink onCreateAnother={handleCreateAnother} {shareData} />
 {:else}
   <CreateSecretForm onSubmit={handleSubmit} />
 {/if}

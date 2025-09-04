@@ -1,105 +1,141 @@
 <script lang="ts">
-  import { decryptData } from "../lib/browserCrypto";
-  import Button from "./Button.svelte";
-  import Input from "./Input.svelte";
-  import TextArea from "./TextArea.svelte";
+    import { decryptData } from "../lib/browserCrypto";
+    import Button from "./Button.svelte";
+    import Input from "./Input.svelte";
+    import TextArea from "./TextArea.svelte";
+    import AttachedFiles from './AttachedFiles.svelte';
+    import type { SecretData } from "../lib/schema";
+    import CreateAnotherButton from "./CreateAnotherButton.svelte";
 
-  export let id = "";
-  export let destruct = true;
-  export let expireIn = "";
-  export let encryptedData = "";
+    export let id = "";
+    export let destruct = true;
+    export let expireIn = "";
+    export let encryptedData = "";
 
-  let secret = "";
-  let passphrase = "";
-  let errors: Record<string, string> = {};
+    let secret = "";
+    let secretData: SecretData | null = null;
+    let passphrase = "";
+    let errors: Record<string, string> = {};
+    let hasHashPassword = false;
+    let isRevealed = false;
 
-  if (typeof window === 'object') {
-    passphrase = decodeURIComponent(window.location.hash.slice(1))
-    handleDecrypt();
-  }
+    if (typeof window === "object") {
+        const hashPassword = decodeURIComponent(window.location.hash.slice(1));
+        if (hashPassword) {
+            passphrase = hashPassword;
+            hasHashPassword = true;
+        }
 
-  async function handleDecrypt() {
-    errors = {};
-
-    try {
-      secret = await decryptData(encryptedData, passphrase);
-      passphrase = "";
-    } catch (err) {
-      errors = {
-        passphrase: "This password is not valid.",
-      };
+        // Clear password from URL hash for security
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
     }
 
-    if (destruct) {
-      try {
-        await fetch(`/api/secrets/${id}`, {
-          method: "delete",
-        });
-      } catch (err) {
-        console.error(`Could not delete ${id}`, err);
-      }
+    async function handleDecrypt() {
+        errors = {};
+
+        try {
+            secret = await decryptData(encryptedData, passphrase);
+
+            // Try to parse as new JSON format, fallback to plain text
+            try {
+                const parsed = JSON.parse(secret) as SecretData;
+                if (
+                    parsed &&
+                    typeof parsed === "object" &&
+                    "text" in parsed &&
+                    "files" in parsed
+                ) {
+                    secretData = parsed;
+                } else {
+                    // Legacy format - just text
+                    secretData = { text: secret, files: [] };
+                }
+            } catch {
+                // Legacy format - just text
+                secretData = { text: secret, files: [] };
+            }
+
+            isRevealed = true;
+        } catch (err) {
+            errors = {
+                passphrase: "Provided password is invalid or data are corrupted.",
+            };
+        }
+
+        if (destruct && isRevealed) {
+            try {
+                await fetch(`/api/secrets/${id}`, {
+                    method: "delete",
+                });
+            } catch (err) {
+                console.error(`Could not delete ${id}`, err);
+            }
+        }
     }
-  }
 
-  function handleSecretClick(e: any) {
-    e.currentTarget.select();
-  }
+    function handleSecretClick(e: any) {
+        e.currentTarget.select();
+    }
 
-  function conceal() {
-    secret = "";
-  }
 
-  const headingSuffix = destruct
-    ? '<br/><span class="text-red-500">or after you read it.</span>'
-    : '.'
-  const heading = `This secret will self-destruct in ${expireIn}${headingSuffix}`;
+    const headingSuffix = destruct
+        ? ' or <span class="underline">after revealing</span>!'
+        : ".";
+    const heading = `This secret expires in ${expireIn}${headingSuffix}`;
 </script>
 
 <div class="space-y-4">
-  <h2 class="text-xl">
-    {@html heading}
-  </h2>
+    <h1 class="text-violet-800 text-xl text-center">
+        {@html heading}
+    </h1>
 
-  {#if secret}
-    <div class="space-y-8">
-      <TextArea
-        label="Secret:"
-        id="secret"
-        class="h-32"
-        readOnly
-        bind:value={secret}
-        onClick={handleSecretClick}
-      />
+    {#if secretData}
+        <div class="space-y-8">
+            {#if secretData.text}
+                <TextArea
+                    label="Secret:"
+                    id="secret"
+                    textAreaClass="h-32"
+                    readOnly
+                    value={secretData.text}
+                    onClick={handleSecretClick}
+                />
+            {/if}
 
-      <div class="flex items-center justify-center space-x-2">
-        <Button on:click={conceal}>Conceal</Button>
-        <a
-          href="/"
-          class="text-gray-400 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Create shared secret
-        </a>
-      </div>
-    </div>
-  {:else}
-    <form on:submit|preventDefault={handleDecrypt} class="space-y-8">
-      <Input
-        id="passphrase"
-        label="Password:"
-        autocomplete="off"
-        error={errors.passphrase}
-        bind:value={passphrase}
-      >
-        <div slot="description" class="space-y-2">
-          <span>
-            A person who have you this link should also share this password.
-          </span>
+            {#if secretData.files.length > 0}
+                <AttachedFiles files={secretData.files} enableDownloads />
+            {/if}
+
+            <CreateAnotherButton label="Share something securely too" />
         </div>
-      </Input>
+    {:else}
+        <form on:submit|preventDefault={handleDecrypt} class="space-y-8">
+            {#if hasHashPassword}
+                <p class="my-8 text-center">Click below to decrypt and view the secret.</p>
+            {:else}
+                <Input
+                    id="passphrase"
+                    label="Password:"
+                    autocomplete="off"
+                    class="space-y-2"
+                    error={errors.passphrase}
+                    bind:value={passphrase}
+                >
+                    <div slot="description">
+                        <span>
+                            Enter the password that came along with this link. If you didn't receive one, reach out to whoever shared it with you.
+                        </span>
+                    </div>
+                </Input>
+            {/if}
 
-      <div class="flex items-center justify-center space-x-2">
-        <Button type="submit">Reveal secret</Button>
-      </div>
-    </form>
-  {/if}
+            {#if errors.passphrase}
+                <div class="mt-4 text-red-600 text-sm">{errors.passphrase}</div>
+            {/if}
+
+            <div class="flex items-center justify-center">
+                <Button type="submit">Reveal Secret</Button>
+            </div>
+        </form>
+    {/if}
 </div>
