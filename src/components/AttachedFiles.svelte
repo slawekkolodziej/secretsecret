@@ -19,7 +19,7 @@
 <div class="space-y-2">
   <h3 class="text-sm font-medium text-gray-700">Attached files:</h3>
   {#each files as file, index}
-    <div class="flex items-center justify-between bg-gray-50 p-2 rounded">
+    <div class="flex items-center justify-between bg-gray-50 p-2 rounded gap-1">
       <div class="flex flex-1 items-center space-x-2 overflow-hidden">
         <svg
           class="h-4 w-4 text-gray-400"
@@ -35,10 +35,10 @@
           />
         </svg>
         <span
-          class="text-sm text-gray-700 flex-1 overflow-hidden overflow-ellipsis text-nowrap"
+          class="text-sm text-gray-700 grow-0 shrink basis-auto overflow-hidden overflow-ellipsis text-nowrap"
           >{file.name}</span
         >
-        <span class="text-xs text-gray-500"
+        <span class="text-xs text-gray-500 flex-auto text-nowrap"
           >({file.size < 1024
             ? `${file.size} B`
             : file.size < 1024 * 1024
@@ -50,7 +50,7 @@
         <button
           type="button"
           on:click={() => onDelete(file, index)}
-          class="text-red-500 hover:text-red-700 cursor-pointer py-1 px-2"
+          class="text-red-500 hover:text-red-700 cursor-pointer py-1 px-2 flex text-sm gap-1 items-center"
           aria-label="Remove file"
         >
           <svg
@@ -66,15 +66,27 @@
               d="M6 18L18 6M6 6l12 12"
             />
           </svg>
+          remove
         </button>
       {/if}
       {#if enableDownloads}
         <button
           type="button"
           on:click={() => downloadFile(file)}
-          class="bg-gray-500 hover:bg-gray-700 text-white text-sm px-4 py-1 rounded focus:outline-none focus:shadow-outline cursor-pointer"
+          class=" text-slate-500 hover:text-slate-700 px-2 py-1 cursor-pointer flex text-sm gap-1 items-center"
+          aria-label="Download file"
         >
-          Download
+          <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4">
+            <path
+              id="Vector"
+              d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          download
         </button>
       {/if}
     </div>
