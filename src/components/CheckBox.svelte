@@ -9,9 +9,9 @@
     wrapperBase:
       'relative block cursor-pointer pointer-events-auto h-6 w-10 grow-0 shrink-0 basis-[40px] rounded-full p-1 ring-1 ring-inset transition duration-200 ease-in-out',
     toggleBase:
-      'h-4 w-4 rounded-full bg-white shadow-sm ring-1 ring-slate-700/10 transition duration-200 ease-in-out',
-    wrapperUnchecked: 'bg-slate-900/10 ring-slate-900/5',
-    wrapperChecked: 'bg-violet-600 ring-black/20',
+      'h-4 w-4 rounded-full bg-background shadow-sm ring-1 ring-neutral-700/10 transition duration-200 ease-in-out',
+    wrapperUnchecked: 'bg-neutral-900/10 ring-neutral-900/5',
+    wrapperChecked: 'bg-primary-600 ring-black/20',
     toggleUnchecked: '',
     toggleChecked: 'translate-x-4'
   };
@@ -50,6 +50,6 @@
   }
 
   .checkboxBase:focus + label {
-    @apply ring-2 ring-focused;
+    @apply ring-2 ring-primary-400 ring-offset-2;
   }
 </style>

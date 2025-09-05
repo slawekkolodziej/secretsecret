@@ -88,7 +88,7 @@
 </script>
 
 <div class="space-y-4">
-  <h1 class="text-violet-800 text-xl text-center">
+  <h1 class="text-primary-800 text-xl text-center">
     {@html heading}
   </h1>
 
@@ -136,7 +136,7 @@
       {/if}
 
       {#if errors.passphrase}
-        <div class="mt-4 text-red-600 text-sm">{errors.passphrase}</div>
+        <div class="mt-4 text-destructive-600 text-sm">{errors.passphrase}</div>
       {/if}
 
       <div class="flex items-center justify-center">

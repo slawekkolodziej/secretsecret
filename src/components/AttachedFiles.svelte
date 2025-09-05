@@ -17,12 +17,14 @@
 </script>
 
 <div class="space-y-2">
-  <h3 class="text-sm font-medium text-gray-700">Attached files:</h3>
+  <h3 class="text-sm font-medium text-muted-700">Attached files:</h3>
   {#each files as file, index}
-    <div class="flex items-center justify-between bg-gray-50 p-2 rounded gap-1">
+    <div
+      class="flex items-center justify-between bg-muted-50 p-2 rounded gap-1"
+    >
       <div class="flex flex-1 items-center space-x-2 overflow-hidden">
         <svg
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 text-muted-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -35,10 +37,10 @@
           />
         </svg>
         <span
-          class="text-sm text-gray-700 grow-0 shrink basis-auto overflow-hidden overflow-ellipsis text-nowrap"
+          class="text-sm text-muted-700 grow-0 shrink basis-auto overflow-hidden overflow-ellipsis text-nowrap"
           >{file.name}</span
         >
-        <span class="text-xs text-gray-500 flex-auto text-nowrap"
+        <span class="text-xs text-muted-500 flex-auto text-nowrap"
           >({file.size < 1024
             ? `${file.size} B`
             : file.size < 1024 * 1024
@@ -50,7 +52,7 @@
         <button
           type="button"
           on:click={() => onDelete(file, index)}
-          class="text-red-500 hover:text-red-700 cursor-pointer py-1 px-2 flex text-sm gap-1 items-center"
+          class="text-destructive-500 hover:text-destructive-700 cursor-pointer py-1 px-2 flex text-sm gap-1 items-center"
           aria-label="Remove file"
         >
           <svg
@@ -73,7 +75,7 @@
         <button
           type="button"
           on:click={() => downloadFile(file)}
-          class=" text-slate-500 hover:text-slate-700 px-2 py-1 cursor-pointer flex text-sm gap-1 items-center"
+          class=" text-neutral-500 hover:text-neutral-700 px-2 py-1 cursor-pointer flex text-sm gap-1 items-center"
           aria-label="Download file"
         >
           <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4">

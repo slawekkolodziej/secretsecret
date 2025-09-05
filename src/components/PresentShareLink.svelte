@@ -10,14 +10,14 @@
 </script>
 
 <div class="space-y-16 flex flex-col">
-  <h1 class="text-violet-800 text-xl text-center">Your secret is ready!</h1>
+  <h1 class="text-primary-800 text-xl text-center">Your secret is ready!</h1>
 
   <div class="space-y-2">
-    <label for="link-to-share" class="block text-gray-700 text-sm font-bold">
+    <label for="link-to-share" class="block text-muted-700 text-sm font-bold">
       Your secret link:
     </label>
     <input
-      class="appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white"
+      class="appearance-none border border-muted-200 rounded w-full py-2 px-3 text-muted-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary-500 bg-background"
       id="link-to-share"
       type="text"
       readOnly={true}
@@ -31,13 +31,13 @@
     {:else}
       <label
         for="password-to-share"
-        class="block text-gray-700 text-sm font-bold"
+        class="block text-muted-700 text-sm font-bold"
       >
         Password:
       </label>
       <input
         id="password-to-share"
-        class="appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white"
+        class="appearance-none border border-muted-200 rounded w-full py-2 px-3 text-muted-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary-500 bg-background"
         type="text"
         readOnly={true}
         on:focus={handleFocus}

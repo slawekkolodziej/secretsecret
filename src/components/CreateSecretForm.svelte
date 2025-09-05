@@ -208,7 +208,7 @@
   onFileInput={handleFileInput}
   class="space-y-16 flex flex-col"
 >
-  <h1 class="text-violet-800 text-xl text-center">
+  <h1 class="text-primary-800 text-xl text-center">
     Got something sensitive to share?
   </h1>
 
@@ -230,7 +230,7 @@
       <div
         slot="labelRight"
         class="text-end"
-        class:text-red-600={remainingSize < 0}
+        class:text-destructive-600={remainingSize < 0}
       >
         {sizeMessage} |
         <button on:click={openFileDialog} class="cursor-pointer"
@@ -259,7 +259,10 @@
       <Button type="submit">{isSaving ? 'Working...' : 'Encrypt'}</Button>
     </div>
 
-    <Collapsible class="bg-slate-50 p-4" bind:expanded={$formOptions.expanded}>
+    <Collapsible
+      class="bg-neutral-50 p-4"
+      bind:expanded={$formOptions.expanded}
+    >
       <svelte:fragment slot="label">Privacy Settings</svelte:fragment>
 
       <svelte:fragment slot="content">
@@ -300,13 +303,13 @@
             </button>
           </div>
 
-          <hr class="my-6 border-slate-200" />
+          <hr class="my-6 border-neutral-200" />
           <p>Settings below are stored locally in your browser.</p>
 
           <div class="select-wrapper">
             <label
               for="expiration"
-              class="block text-gray-700 text-sm font-bold mb-1"
+              class="block text-muted-700 text-sm font-bold mb-1"
             >
               Expire in
             </label>
@@ -340,7 +343,7 @@
     </Collapsible>
 
     <Collapsible
-      class="bg-slate-50 p-4 border-gray-200/75 border-t-1"
+      class="bg-neutral-50 p-4 border-muted-200/75 border-t-1"
       bind:expanded={$helpOptions.expanded}
     >
       <svelte:fragment slot="label">Instructions</svelte:fragment>
@@ -348,9 +351,9 @@
       <svelte:fragment slot="content">
         <div class="space-y-6">
           <div class="space-y-2">
-            <h2 class="text-lg font-semibold text-gray-700">How to use it?</h2>
+            <h2 class="text-lg font-semibold text-muted-700">How to use it?</h2>
             <ol
-              class="list-decimal list-inside space-y-1 text-sm text-gray-600"
+              class="list-decimal list-inside space-y-1 text-sm text-muted-600"
             >
               <li>Type the secret that you want to share</li>
               <li>Click the "Encrypt" button</li>
@@ -359,10 +362,10 @@
           </div>
 
           <div class="space-y-2">
-            <h2 class="text-lg font-semibold text-gray-700">
+            <h2 class="text-lg font-semibold text-muted-700">
               Security details
             </h2>
-            <div class="text-sm text-gray-600 space-y-2">
+            <div class="text-sm text-muted-600 space-y-2">
               <ul class="list-disc pl-4 space-y-4">
                 <li>
                   Your secret is encrypted in your browser using the <a
@@ -383,11 +386,11 @@
                   content is read using
                   <a
                     href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader"
-                    >FileReader API</a
+                    class="underline">FileReader API</a
                   >, converted to
                   <a
                     href="https://developer.mozilla.org/en-US/docs/Glossary/Base64"
-                    >Base64</a
+                    class="underline">Base64</a
                   >
                   and appended to your secret.
                 </li>

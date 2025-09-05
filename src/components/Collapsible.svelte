@@ -35,7 +35,7 @@
 
   {#if $$slots.content}
     {#if expanded}
-      <span class="block text-sm text-gray-500 space-y-4 mt-4">
+      <span class="block text-sm text-muted-500 space-y-4 mt-4">
         <slot name="content" />
       </span>
     {/if}
