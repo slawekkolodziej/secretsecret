@@ -20,24 +20,26 @@
   <h3 class="text-sm font-medium text-muted-700">Attached files:</h3>
   {#each files as file, index}
     <div
-      class="flex items-center justify-between bg-muted-50 p-2 rounded gap-1"
+      class="flex items-center justify-between bg-muted-50 p-2 rounded gap-2"
     >
-      <div class="flex flex-1 items-center space-x-2 overflow-hidden">
-        <svg
-          class="h-4 w-4 text-muted-400"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-          />
-        </svg>
+      <svg
+        class="h-4 w-4 text-muted-400 shrink-0 basis-auto"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+        />
+      </svg>
+      <div class="flex flex-1 gap-1 items-center overflow-hidden">
         <span
-          class="text-sm text-muted-700 grow-0 shrink basis-auto overflow-hidden overflow-ellipsis text-nowrap"
+          title={file.name}
+          data-title={file.name}
+          class="text-sm text-muted-700 grow-0 shrink basis-auto overflow-hidden overflow-ellipsis text-nowrap file-list-item"
           >{file.name}</span
         >
         <span class="text-xs text-muted-500 flex-auto text-nowrap"
@@ -52,7 +54,7 @@
         <button
           type="button"
           on:click={() => onDelete(file, index)}
-          class="text-destructive-500 hover:text-destructive-700 cursor-pointer py-1 px-2 flex text-sm gap-1 items-center"
+          class="text-destructive-500 hover:text-destructive-700 cursor-pointer py-1 px-2 flex text-sm items-center"
           aria-label="Remove file"
         >
           <svg
