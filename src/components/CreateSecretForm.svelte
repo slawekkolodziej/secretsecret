@@ -232,10 +232,7 @@
         class="text-end"
         class:text-destructive-600={remainingSize < 0}
       >
-        {sizeMessage} |
-        <button on:click={openFileDialog} class="cursor-pointer"
-          >attach files</button
-        >
+        {sizeMessage}
       </div>
     </TextArea>
 
@@ -252,10 +249,32 @@
         <AttachedFiles files={attachedFiles} onDelete={handleDelete} />
       </div>
     {:else}
-      <div class="mb-8"></div>
+      <div class="mb-4"></div>
     {/if}
 
-    <div class="flex items-center justify-center my-8">
+    <div class="flex items-center justify-center gap-4 mb-8">
+      <button
+        type="button"
+        on:click={openFileDialog}
+        class="border-neutral-400 text-neutral-400 hover:bg-neutral-50 font-bold py-2 px-4 rounded cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-neutral-400 flex items-center gap-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          width="20"
+          height="20"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"
+          />
+        </svg>
+        Attach Files
+      </button>
       <Button type="submit">{isSaving ? 'Working...' : 'Encrypt'}</Button>
     </div>
 
@@ -430,6 +449,15 @@
   :global(.dark .select-wrapper .svelte-select) {
     --item-hover-color: var(--color-slate-50);
     --item-is-active-bg: var(--color-primary-200);
+  }
+
+  :global(.dark) button[type='button'].border-primary-500 {
+    border-color: var(--color-primary-400);
+    color: var(--color-primary-400);
+  }
+
+  :global(.dark) button[type='button'].border-primary-500:hover {
+    background-color: rgba(139, 92, 246, 0.1);
   }
 
   :global(.select-wrapper .svelte-select.focused) {
