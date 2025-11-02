@@ -13,16 +13,17 @@ Only the encrypted version is temporarily stored in a Redis cache. Assuming you 
 Visit service homepage, then:
 
 1. Type the secret that you want to share
-2. Type password used to encrypt your secret
-3. You can modify default expiration and self-destruct options, or leave default values
-4. Click 'encrypt'
-5. Share the provided link and password used in step 2 with your team mates.
+2. Optionally attach files using the "Attach Files" button or drag & drop them
+3. A password is auto-generated for you, but you can customize it if needed
+4. You can modify default expiration, self-destruct, and single-click access options
+5. Click 'Encrypt'
+6. Share the provided link (and password if not using one-click mode) with your recipients
 
 ### Receiving a secret
 
-1. Open the received secret**secret** link.
-2. Type password you received from a person who gave you the link.
-3. Click "decrypt" to see the secret.
+1. Open the received secretsecret link
+2. If using one-click mode, the secret will decrypt automatically. Otherwise, enter the password you received
+3. Click "Decrypt" to see the secret and download any attached files
 
 ## Self hosting
 
