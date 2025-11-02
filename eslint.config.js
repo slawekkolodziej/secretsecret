@@ -13,12 +13,12 @@ const sharedConfig = {
   languageOptions: {
     globals: {
       ...globals.browser,
-      ...globals.es2021,
-    },
+      ...globals.es2021
+    }
   },
   plugins: {
     '@typescript-eslint': tsPlugin,
-    prettier: prettierPlugin,
+    prettier: prettierPlugin
   },
   rules: {
     ...prettierConfig.rules,
@@ -33,12 +33,12 @@ const sharedConfig = {
         caughtErrors: 'all',
         caughtErrorsIgnorePattern: '^_',
         destructuredArrayIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      },
+        varsIgnorePattern: '^_'
+      }
     ],
     '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/ban-ts-comment': 'warn',
-  },
+    '@typescript-eslint/ban-ts-comment': 'warn'
+  }
 };
 
 export default [
@@ -51,16 +51,16 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: './tsconfig.json',
-      },
+        project: './tsconfig.json'
+      }
     },
     plugins: {
-      ...sharedConfig.plugins,
+      ...sharedConfig.plugins
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
-      ...sharedConfig.rules,
-    },
+      ...sharedConfig.rules
+    }
   },
   {
     files: ['**/*.svelte'],
@@ -68,18 +68,18 @@ export default [
       ...sharedConfig.languageOptions,
       parser: svelteParser,
       parserOptions: {
-        parser: tsParser,
-      },
+        parser: tsParser
+      }
     },
     plugins: {
       ...sharedConfig.plugins,
-      svelte: sveltePlugin,
+      svelte: sveltePlugin
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
       ...sveltePlugin.configs.recommended.rules,
-      ...sharedConfig.rules,
-    },
+      ...sharedConfig.rules
+    }
   },
   ...astroPlugin.configs.recommended.map((config) => ({
     ...config,
@@ -89,16 +89,16 @@ export default [
       globals: {
         ...config.languageOptions?.globals,
         ...sharedConfig.languageOptions.globals,
-        ...globals.node,
-      },
+        ...globals.node
+      }
     },
     plugins: {
       ...config.plugins,
-      ...sharedConfig.plugins,
+      ...sharedConfig.plugins
     },
     rules: {
       ...config.rules,
-      ...sharedConfig.rules,
-    },
-  })),
+      ...sharedConfig.rules
+    }
+  }))
 ];
