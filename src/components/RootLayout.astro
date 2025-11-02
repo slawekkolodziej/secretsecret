@@ -48,18 +48,20 @@ const title = Astro.props.title ?? 'secure secret sharing';
       </a>
     </header>
     <slot />
-    <footer class="flex justify-center p-2 bg-neutral-50 space-x-4">
+    <footer
+      class="flex flex-col sm:flex-row justify-center items-center p-4 bg-neutral-50 gap-2 sm:gap-0 sm:space-x-4"
+    >
       <span
         >Brought to you by <a href="https://github.com/slawekkolodziej"
           >@slawekkolodziej</a
         ></span
       >
-      <span> • </span>
+      <span class="hidden sm:inline"> • </span>
       <a
         href="https://github.com/slawekkolodziej/secretsecret"
         class="inline-flex items-center gap-2">⭐ Star on GitHub</a
       >
-      <span> • </span>
+      <span class="hidden sm:inline"> • </span>
       <a
         href="https://github.com/sponsors/slawekkolodziej?frequency=one-time"
         class="inline-flex items-center gap-2">☕ Buy me a coffee</a
