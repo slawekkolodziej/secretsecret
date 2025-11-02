@@ -41,7 +41,7 @@
       'appearance-none border rounded w-full py-2 px-3',
       'text-muted-700 leading-tight transition-all',
       'focus:outline-none focus:ring-2 focus:ring-primary-400',
-      'text-md leading-6',
+      'text-md placeholder-placeholder leading-6',
       error ? 'ring-2 ring-destructive-300' : '',
       textAreaClass
     )}

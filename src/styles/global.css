@@ -1,2 +1,20 @@
 @import "tailwindcss";
-@import "./theme.css"
+@import "./theme.css";
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+@theme {
+  --animate-pulse-violet: pulse-violet 2s ease-in-out infinite;
+}
+
+@keyframes pulse-violet {
+  0%, 100% {
+    background-color: theme(colors.violet.400 / 50%);
+  }
+  50% {
+    background-color: theme(colors.violet.500 / 50%);
+  }
+}

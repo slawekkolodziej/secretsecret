@@ -48,7 +48,7 @@
 
   {#if isDragOver}
     <div
-      class="fixed inset-0 bg-primary-500 bg-opacity-20 border-2 border-dashed border-primary-500 z-50 flex items-center justify-center"
+      class="fixed inset-0 animate-pulse-violet bg-opacity-20 border-2 border-dashed border-primary-500 z-50 flex items-center justify-center"
     >
       <div class="bg-background p-6 rounded-lg shadow-lg">
         <div class="text-center">

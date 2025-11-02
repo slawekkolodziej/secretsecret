@@ -411,13 +411,28 @@
   }
 
   :global(.select-wrapper .svelte-select) {
-    --border: 1px solid rgb(209 213 219);
-    --borderRadius: 0.375rem;
-    --padding: 0.375rem 0.75rem;
-    --background: white;
+    height: 42px;
+
+    --border: 1px solid var(--color-muted-200);
+    --border-focused: 1px solid var(--color-muted-200);
+    --border-hover: 1px solid var(--color-muted-200);
+    --border-radius: 0.25rem;
+
+    --background: var(--color-background);
+    --list-background: var(--color-background);
+
+    --item-hover-bg: var(--color-primary-50);
+    --item-hover-color: var(--color-primary-500);
+    --item-is-active-bg: var(--color-primary-600);
+    --item-is-active-color: var(--color-slate-50);
+  }
+
+  :global(.dark .select-wrapper .svelte-select) {
+    --item-hover-color: var(--color-slate-50);
+    --item-is-active-bg: var(--color-primary-200);
   }
 
   :global(.select-wrapper .svelte-select.focused) {
-    --border: 2px solid rgb(139 92 246);
+    outline: 2px solid var(--color-primary-400);
   }
 </style>

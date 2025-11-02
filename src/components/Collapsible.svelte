@@ -24,7 +24,7 @@
         class={twMerge('transition', expanded ? 'rotate-0' : 'rotate-180')}
       >
         <path
-          stroke="#000"
+          stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
           d="m17 9.5-5 5-5-5"
