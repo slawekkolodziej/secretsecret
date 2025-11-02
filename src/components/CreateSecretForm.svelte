@@ -411,7 +411,7 @@
   }
 
   :global(.select-wrapper .svelte-select) {
-    height: 42px;
+    height: 38px;
 
     --border: 1px solid var(--color-muted-200);
     --border-focused: 1px solid var(--color-muted-200);

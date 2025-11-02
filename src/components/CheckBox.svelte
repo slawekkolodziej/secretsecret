@@ -50,6 +50,6 @@
   }
 
   .checkboxBase:focus + label {
-    @apply ring-2 ring-primary-400 ring-offset-2;
+    @apply outline-2 outline-primary-400 outline-offset-2;
   }
 </style>
